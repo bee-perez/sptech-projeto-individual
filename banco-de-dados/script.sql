@@ -6,7 +6,7 @@ CREATE TABLE stand (
     idstand INT PRIMARY KEY auto_increment,
     nome VARCHAR(45) unique,
     descricao VARCHAR(255),
-    atributos VARCHAR(45),
+    caracteristicas VARCHAR(45),
     personagem VARCHAR(45)
 );
 
@@ -61,16 +61,16 @@ CREATE TABLE resposta_alternativa(
 
 -- ISERTS
 -- Inserir os stands com seus donos e atributos
-INSERT INTO stand (idstand, nome, descricao, atributos, personagem) VALUES
-(default, 'Whitesnake', 'Stand de controle mental e manipulação de memórias', 'Inteligência, controle', 'Enrico Pucci'),
-(default, 'Stone Free', 'Stand de manipulação de fios e liberdade', 'Liberdade, resiliência, coragem', 'Jolyne Kujo'),
-(default, 'Star Platinum', 'Stand de força física e percepção altamente desenvolvida', 'Força, coragem, velocidade', 'Jotaro Kujo'),
-(default, 'Burning Down the House', 'Stand de inteligência emocional e criação de objetos', 'Inteligência emocional, estratégia', 'Emporio Alnino'),
-(default, 'Foo Fighters', 'Stand de empatia e capacidade de aprendizagem', 'Empatia, pertencimento, aprendizado', 'F.F.'),
-(default, 'Weather Forecast', 'Stand de controle do clima e previsões', 'Sensibilidade, controle interno', 'Weather Report'),
-(default, 'Kiss', 'Stand de marcação e transferência de memórias', 'Justiça, força, determinação', 'Ermes Costello'),
-(default, 'Diver Down', 'Stand de controle de objetos e capacidade de entrar em pessoas', 'Lealdade, obsessão, paixão intensa', 'Narciso Anasui'),
-(default, 'The World', 'Stand de controle do tempo e domínio de movimentos', 'Poder, domínio do tempo', 'Dio Brando');
+INSERT INTO stand (idstand, nome, descricao, caracteristicas, personagem) VALUES
+(default, 'Whitesnake', 'Stand de controle mental e manipulação de memórias', 'lealdade', 'Enrico Pucci'),
+(default, 'Stone Free', 'Stand de manipulação de fios e liberdade', 'resiliência', 'Jolyne Kujo'),
+(default, 'Star Platinum', 'Stand de força física e percepção altamente desenvolvida', 'força', 'Jotaro Kujo'),
+(default, 'Burning Down the House', 'Stand de inteligência emocional e criação de objetos', 'estratégia', 'Emporio Alnino'),
+(default, 'Foo Fighters', 'Stand de empatia e capacidade de aprendizagem', 'pertencimento', 'F.F.'),
+(default, 'Weather Forecast', 'Stand de controle do clima e previsões', 'Sensibilidade', 'Weather Report'),
+(default, 'Kiss', 'Stand de marcação e transferência de memórias', 'determinação', 'Ermes Costello'),
+(default, 'Diver Down', 'Stand de controle de objetos e capacidade de entrar em pessoas', 'intensidade', 'Narciso Anasui'),
+(default, 'The World', 'Stand de controle do tempo e domínio de movimentos', 'coragem', 'Dio Brando');
 
 
 INSERT INTO usuario (idusuario, nome, email, senha, stand_idstand) VALUES
@@ -324,6 +324,6 @@ FROM resposta_usuario
 GROUP BY situacao;
 
 -- selecionar todos os nomes dos Stands e todos os seus atributos
-SELECT nome, atributos
+SELECT nome, caracteristicas
 FROM stand;
 

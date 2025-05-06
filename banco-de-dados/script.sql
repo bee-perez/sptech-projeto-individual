@@ -63,13 +63,13 @@ CREATE TABLE resposta_alternativa(
 -- Inserir os stands com seus donos e atributos
 INSERT INTO stand (idstand, nome, descricao, caracteristicas, personagem) VALUES
 (default, 'Whitesnake', 'Stand de controle mental e manipulação de memórias', 'lealdade', 'Enrico Pucci'),
-(default, 'Stone Free', 'Stand de manipulação de fios e liberdade', 'resiliência', 'Jolyne Kujo'),
+(default, 'Stone Free', 'Stand de manipulação de fios', 'resiliência', 'Jolyne Kujo'),
 (default, 'Star Platinum', 'Stand de força física e percepção altamente desenvolvida', 'força', 'Jotaro Kujo'),
-(default, 'Burning Down the House', 'Stand de inteligência emocional e criação de objetos', 'estratégia', 'Emporio Alnino'),
-(default, 'Foo Fighters', 'Stand de empatia e capacidade de aprendizagem', 'pertencimento', 'F.F.'),
+(default, 'Burning Down the House', 'Stand de interação com fanatsmas e criação de objetos', 'estratégia', 'Emporio Alnino'),
+(default, 'Foo Fighters', 'Stand que permite que os planctons existam em forma de humano', 'pertencimento', 'F.F.'),
 (default, 'Weather Forecast', 'Stand de controle do clima e previsões', 'Sensibilidade', 'Weather Report'),
-(default, 'Kiss', 'Stand de marcação e transferência de memórias', 'determinação', 'Ermes Costello'),
-(default, 'Diver Down', 'Stand de controle de objetos e capacidade de entrar em pessoas', 'intensidade', 'Narciso Anasui'),
+(default, 'Kiss', 'Stand de adesivo para criar duplicatas', 'determinação', 'Ermes Costello'),
+(default, 'Diver Down', 'Stand que gaurda energia e tem capacidade de mergulhar em objetos e modificar sua estrutura', 'intensidade', 'Narciso Anasui'),
 (default, 'The World', 'Stand de controle do tempo e domínio de movimentos', 'coragem', 'Dio Brando');
 
 

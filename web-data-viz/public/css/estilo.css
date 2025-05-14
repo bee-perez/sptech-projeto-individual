@@ -173,16 +173,12 @@ nav ul li a:hover {
   min-width: 300px;
 }
 
-.hero-text h1 {
-  margin-bottom: 1rem;
-}
 
 .destaque {
   color: var(--cor-primaria);
 }
 
 .hero-text p {
-  font-size: 1.2rem;
   margin-bottom: 2rem;
   max-width: 600px;
 }
@@ -283,24 +279,13 @@ nav ul li a:hover {
 }
 
 .origem h2 {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-  font-weight: 800;
   color: #000;
 }
 
 .origem p {
-  font-size: 1.1rem;
-  line-height: 1.6;
   margin-bottom: 2rem;
 }
 
-.origem h4 {
-  font-size: 1.3rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-  text-transform: uppercase;
-}
 
 .motivacoes {
   list-style: none;
@@ -377,11 +362,6 @@ nav ul li a:hover {
   color: #131313;
 }
 
-.stands h2 {
-  font-size: 2.5rem;
-  font-weight: 800;
-  margin-bottom: 2rem;
-}
 
 .filtros {
   display: flex;

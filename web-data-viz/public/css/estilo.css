@@ -28,25 +28,25 @@ h1,
 h2,
 h3,
 h4 {
-  margin-bottom: 1rem;
+  margin-bottom: 16px; 
 }
 
 h1 {
-  font-size: 4.5rem;
+  font-size: 72px; 
 }
 
 h2 {
-  font-size: 4rem;
-  margin-bottom: 2rem;
+  font-size: 64px; 
+  margin-bottom: 32px; 
 }
 
 h3 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
+  font-size: 32px; 
+  margin-bottom: 16px; 
 }
 
 h4 {
-  font-size: 1.5rem;
+  font-size: 24px; 
 }
 
 
@@ -56,7 +56,7 @@ a {
 }
 
 p {
-  font-size: 1rem;
+  font-size: 16px; 
 }
 
 img {
@@ -67,7 +67,7 @@ img {
 button {
   background-color: var(--cor-primaria);
   border: none;
-  padding: 0.8rem 2rem;
+  padding: 12.8px 32px; 
   cursor: pointer;
   transition: opacity 0.3s ease;
 }
@@ -86,7 +86,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem 5%;
+  padding: 24px 5%; 
   background-color: transparent;
   transition: background-color 0.3s ease, border-color 0.3s ease;
 }
@@ -104,7 +104,7 @@ header.scrolled {
 nav ul {
   display: flex;
   list-style: none;
-  gap: 2rem;
+  gap: 32px; 
 }
 
 nav ul li a {
@@ -118,7 +118,7 @@ nav ul li a:hover {
 
 .auth {
   display: flex;
-  gap: 1rem;
+  gap: 16px; 
 }
 
 .auth .login,
@@ -126,7 +126,7 @@ nav ul li a:hover {
   background: transparent;
   color: white;
   border: 1px solid white;
-  padding: 0.5rem 1rem;
+  padding: 8px 16px; 
   border-radius: 8px;
   transition: background 0.3s, color 0.3s;
   cursor: pointer;
@@ -148,7 +148,7 @@ nav ul li a:hover {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  padding: 6rem 5% 0 6rem;
+  padding: 96px 5% 0 96px; 
   overflow: hidden;
   z-index: 1;
 
@@ -179,14 +179,14 @@ nav ul li a:hover {
 }
 
 .hero-text p {
-  margin-bottom: 2rem;
+  margin-bottom: 32px; 
   max-width: 600px;
 }
 
 .hero-text button {
   background-color: var(--cor-primaria);
   border: none;
-  padding: 0.8rem 2rem;
+  padding: 12.8px 32px; 
   border-radius: 30px;
   font-weight: bold;
   color: #000;
@@ -197,7 +197,7 @@ nav ul li a:hover {
 
 /* Sobre */
 .sobre {
-  padding: 5rem 5%;
+  padding: 80px 5%; 
   color: #131313;
 }
 
@@ -225,34 +225,34 @@ nav ul li a:hover {
 .sobre span {
   color: var(--cor-primaria);
   text-transform: uppercase;
-  font-size: 0.9rem;
+  font-size: 14.4px; 
   letter-spacing: 1px;
 }
 
 .sobre>div {
   display: flex;
   flex-wrap: wrap;
-  gap: 2rem;
+  gap: 32px; 
 }
 
 
 .sobre img {
   border-radius: 12px;
-  margin-bottom: 1rem;
+  margin-bottom: 16px; 
 }
 
 
 .cards {
   display: flex;
-  gap: 2rem;
-  margin-top: 2rem;
+  gap: 32px; 
+  margin-top: 32px; 
   color: white;
 }
 
 .cards .card {
   flex: 1;
   background-image: linear-gradient(#000E2D, #016779);
-  padding: 1.5rem;
+  padding: 24px; 
   border-radius: 12px;
   border-left: 5px solid var(--cor-primaria);
 }
@@ -260,7 +260,7 @@ nav ul li a:hover {
 
 /* Origem */
 .origem {
-  padding: 5rem 5%;
+  padding: 80px 5%; 
   background-color: #ffffff;
   color: #111;
 }
@@ -270,7 +270,7 @@ nav ul li a:hover {
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 2rem;
+  gap: 32px; 
 }
 
 .origem-texto {
@@ -283,7 +283,7 @@ nav ul li a:hover {
 }
 
 .origem p {
-  margin-bottom: 2rem;
+  margin-bottom: 32px; 
 }
 
 
@@ -295,9 +295,9 @@ nav ul li a:hover {
 .motivacoes li {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-  font-size: 1rem;
+  gap: 8px; 
+  margin-bottom: 16px; 
+  font-size: 16px; 
 }
 
 .motivacoes li span {
@@ -305,7 +305,7 @@ nav ul li a:hover {
   color: black;
   font-weight: bold;
   border-radius: 50%;
-  padding: 0.3rem 0.6rem;
+  padding: 4.8px 9.6px; 
 }
 
 .origem-img {
@@ -324,7 +324,7 @@ nav ul li a:hover {
 
 /* Quiz */
 .quiz {
-  padding: 15%;
+  padding: 15%; 
   text-align: center;
   background-image: url(../assets/imgs/stoneocean-characters.svg);
   background-size: cover;
@@ -338,13 +338,13 @@ nav ul li a:hover {
 
 .quiz p {
   max-width: 600px;
-  margin: 0 auto 2rem;
+  margin: 0 auto 32px; 
 }
 
 .quiz button {
   background-color: white;
   border: none;
-  padding: 0.8rem 2rem;
+  padding: 12.8px 32px; 
   border-radius: 30px;
   font-weight: bold;
   color: #000;
@@ -355,7 +355,7 @@ nav ul li a:hover {
 
 /* Stands */
 .stands {
-  padding: 5rem 5%;
+  padding: 80px 5%; 
   background-color: #fff;
   text-align: center;
   font-family: 'Poppins', sans-serif;
@@ -367,14 +367,14 @@ nav ul li a:hover {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 1rem;
-  margin-bottom: 3rem;
+  gap: 16px; 
+  margin-bottom: 48px; 
 }
 
 .filtros button {
-  padding: 0.6rem 1.5rem;
+  padding: 9.6px 24px; 
   border: 2px solid #0d1e30;
-  border-radius: 0.7rem;
+  border-radius: 11.2px; 
   background-color: transparent;
   color: #0d1e30;
   cursor: pointer;
@@ -391,12 +391,12 @@ nav ul li a:hover {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 2rem;
+  gap: 32px; 
 }
 
 .cards-container .card {
   background-color: white;
-  border-radius: 0.7rem;
+  border-radius: 11.2px; 
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   flex: 1 1 250px;
@@ -404,7 +404,7 @@ nav ul li a:hover {
   min-width: 397px;
   text-align: left;
   transition: transform 0.3s ease;
-  padding: 1.5rem;
+  padding: 24px; 
 }
 
 .cards-container .card:hover {
@@ -415,7 +415,7 @@ nav ul li a:hover {
   width: 100%;
   height: auto;
   display: block;
-  border-radius: 0.7rem;
+  border-radius: 12px;
 }
 
 .personagem {

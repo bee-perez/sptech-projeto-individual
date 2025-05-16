@@ -12,7 +12,6 @@
 
     <link rel="stylesheet" href="./css/cadastro-login.css">
     <link rel="icon" href="./assets/icon/favicon2.ico">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
 </head>
 
 <body>
@@ -28,10 +27,10 @@
 
             <form id="register-form">
                 <label for="email">E-mail</label>
-                <input type="email" id="email" placeholder="exemplo@gmail.com" required />
+                <input type="email" id="email_input" placeholder="exemplo@gmail.com" required />
 
                 <label for="password">Senha</label>
-                <input type="password" id="password" placeholder="••••••" required />
+                <input type="password" id="senha_input" placeholder="••••••" required />
 
                 <div class="check">
                     <div class="checkbox-row">
@@ -42,7 +41,7 @@
                     <a href="#" class="forgot">Esqueceu a senha?</a>
                 </div>
 
-                <button type="submit" class="btn">Entrar</button>
+                <button class="btn" onclick="entrar()">Entrar</button>
             </form>
         </section>
         <section class="hero"></section>
@@ -95,10 +94,9 @@
                     sessionStorage.EMAIL_USUARIO = json.email;
                     sessionStorage.NOME_USUARIO = json.nome;
                     sessionStorage.ID_USUARIO = json.id;
-                    sessionStorage.AQUARIOS = JSON.stringify(json.aquarios)
 
                     setTimeout(function () {
-                        window.location = "./dashboard/cards.html";
+                        window.location = "./dashboard/home.html";
                     }, 1000); // apenas para exibir o loading
 
                 });

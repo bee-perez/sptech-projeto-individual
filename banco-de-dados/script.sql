@@ -1,6 +1,6 @@
-CREATE DATABASE projeto_individual;
+CREATE DATABASE standinside;
 
-USE projeto_individual;
+USE standinside;
 
 CREATE TABLE stand (
     idstand INT PRIMARY KEY auto_increment,
@@ -15,7 +15,7 @@ CREATE TABLE usuario (
     nome VARCHAR(45),
     email VARCHAR(45) unique,
     senha VARCHAR(255),
-    stand_idstand INT,
+    stand_idstand INT NULL,
     CONSTRAINT fk_usuario_stand FOREIGN KEY (stand_idstand) REFERENCES stand(idstand)
 );
 
@@ -326,4 +326,6 @@ GROUP BY situacao;
 -- selecionar todos os nomes dos Stands e todos os seus atributos
 SELECT nome, caracteristicas
 FROM stand;
+
+SELECT * FROM usuario;
 

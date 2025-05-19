@@ -11,7 +11,7 @@ CREATE TABLE stand (
 );
 
 CREATE TABLE usuario (
-    idusuario INT PRIMARY KEY auto_increment,
+    idUsuario INT PRIMARY KEY auto_increment,
     nome VARCHAR(45),
     email VARCHAR(45) unique,
     senha VARCHAR(255),
@@ -73,7 +73,7 @@ INSERT INTO stand (idstand, nome, descricao, caracteristicas, personagem) VALUES
 (default, 'The World', 'Stand de controle do tempo e domínio de movimentos', 'coragem', 'Dio Brando');
 
 
-INSERT INTO usuario (idusuario, nome, email, senha, stand_idstand) VALUES
+INSERT INTO usuario (idUsuario, nome, email, senha, stand_idstand) VALUES
 (default, 'João Silva', 'joao@jojo.com', 'senha1', 2),
 (default, 'Maria Oliveira', 'maria@jojo.com', 'senha2', 6),
 (default, 'Carlos Almeida', 'carlos@jojo.com', 'senha3', 4),

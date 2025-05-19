@@ -6,12 +6,13 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Stand Inside | Login</title>
+  <title>Stand Inside | Cadastro</title>
 
   <script src="./js/sessao.js"></script>
 
   <link rel="stylesheet" href="./css/cadastro-login.css">
-  <link rel="icon" href="./assets/icon/favicon2.ico">
+  <link rel="icon" href="./assets/logo.svg">
+
 
 </head>
 
@@ -52,7 +53,7 @@
           <a href="#" class="forgot">Esqueceu a senha?</a>
         </div>
 
-        <button type="button" class="btn" id="btnCadastrar">Cadastrar</button>
+        <button type="button" class="btn" id="btnCadastrar" onclick="cadastrar()">Cadastrar</button>
 
         <div id="div_erros_login"></div>
       </form>
@@ -63,9 +64,6 @@
 </html>
 
 <script>
-
-  // Array para armazenar empresas cadastradas para validação de código de ativação 
-  document.getElementById('btnCadastrar').addEventListener('click', cadastrar);
 
   function cadastrar() {
     // aguardar();

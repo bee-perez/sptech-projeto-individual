@@ -7,15 +7,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Stand Inside | Login</title>
+    <link rel="stylesheet" href="./css/cadastro-login.css">
+    <link rel="icon" href="./assets/logo.svg">
 
     <script src="./js/sessao.js"></script>
 
-    <link rel="stylesheet" href="./css/cadastro-login.css">
-    <link rel="icon" href="./assets/icon/favicon2.ico">
 </head>
 
 <body>
     <main class="container">
+        <div class="alerta_erro">
+            <div class="card_erro" id="cardErro">
+                <span id="mensagem_erro"></span>
+            </div>
+        </div>
         <section class="form-container">
             <a href="./index.html">
                 <img src="./assets/logo.svg" alt="Stand Inside Logo" class="logo" />
@@ -25,24 +30,25 @@
             <h3>Fazer Login</h3>
             <p>Novo Usuário? <a href="cadastro.html">Crie uma conta</a></p>
 
-            <form id="register-form">
+            <form id="register-form" onsubmit="entrar(event)">
                 <label for="email">E-mail</label>
                 <input type="email" id="email_input" placeholder="exemplo@gmail.com" required />
-
+            
                 <label for="password">Senha</label>
                 <input type="password" id="senha_input" placeholder="••••••" required />
-
+            
                 <div class="check">
                     <div class="checkbox-row">
                         <input type="checkbox" id="remember" />
                         <label for="remember">Lembrar de mim</label>
                     </div>
-
+            
                     <a href="#" class="forgot">Esqueceu a senha?</a>
                 </div>
-
-                <button class="btn" onclick="entrar()">Entrar</button>
-            </form>
+            
+                <button type="submit" class="btn">Entrar</button>
+                <div id="div_erros_login"></div>
+            </form> 
         </section>
         <section class="hero"></section>
 
@@ -53,12 +59,16 @@
 
 <script>
 
+    function entrar(event) {
+        // aguardar();
 
-    function entrar() {
-        aguardar();
+        event.preventDefault();
 
         var emailVar = email_input.value;
         var senhaVar = senha_input.value;
+
+        console.log(emailVar);
+        console.log(senhaVar);
 
         if (emailVar == "" || senhaVar == "") {
             cardErro.style.display = "block"
@@ -93,7 +103,7 @@
                     console.log(JSON.stringify(json));
                     sessionStorage.EMAIL_USUARIO = json.email;
                     sessionStorage.NOME_USUARIO = json.nome;
-                    sessionStorage.ID_USUARIO = json.id;
+                    sessionStorage.ID_USUARIO = json.idUsuario;
 
                     setTimeout(function () {
                         window.location = "./dashboard/home.html";
@@ -107,7 +117,7 @@
 
                 resposta.text().then(texto => {
                     console.error(texto);
-                    finalizarAguardar(texto);
+                    // finalizarAguardar(texto);
                 });
             }
 
@@ -121,5 +131,4 @@
     function sumirMensagem() {
         cardErro.style.display = "none"
     }
-
 </script>

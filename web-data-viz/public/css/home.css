@@ -2,23 +2,32 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-  }
+}
 
 body {
     font-family: 'Segoe UI', sans-serif;
     color: white;
 }
 
-/* SIDEBAR */
+.container-dash{
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+}
 
+.content-secion{
+    flex: 1;
+}
+
+/* SIDEBAR */
 .sidebar {
     height: 100vh;
     background-color: #0a122a;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    position: fixed;
     padding: 24px 24px;
+    max-width: 40%;
 }
 
 .nav-bar{
@@ -84,3 +93,26 @@ nav ul li a i {
     color: white;
 }
 
+/* Content */
+
+.content-secion header ul{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+} 
+
+.notification{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 56px;
+    height: 56px;
+    background-color: #0a122a;
+    border-radius: 16px;
+} 
+
+.content-secion header ul li a img{
+    width: 56px;
+    border-radius: 16px;
+} 

@@ -47,17 +47,31 @@
       <section>
         <div class="section-quiz">
           <div>
-            <h3>Jojo Bizarre Adventure: Stone Ocean</h3>
+            <h3>Jojo Bizarre Adventure: <br> Stone Ocean</h3>
             <a href="">Responder quizz</a>
           </div>
           <img src="../assets/imgs/jotaro2.svg" alt="">
         </div>
-        <div class="section-stands">
 
+
+        <div class="section-stands">
+          <h2 class="stands-title">Sobre os Stands</h2>
+          <p class="stands-subtitle">
+            Cada Stand é mais do que apenas habilidades de combate, é uma manifestação única de desejos, emoções e
+            forças interiores, refletindo a jornada e o crescimento pessoal de quem o possui. Ao longo da trama, os
+            personagens desenvolvem seus Stands conforme enfrentam desafios e evoluem. </p>
+          <div id="personagem-info" class="personagem-info">
+            <img src="../assets/imgs/stand-stonefree.svg" alt="" id="personagem-img" class="personagem-img">
+            <div class="personagem-dados">
+              <h2 id="personagem-nome">Stone Free</h2>
+              <p id="personagem-descricao">Clique em um botão abaixo para ver as informações de um personagem.</p>
+            </div>
+          </div>
+
+          <div class="botoes" id="botoes-container">
+            <!-- Botões são gerados via JS -->
+          </div>
         </div>
-      </section>
-      <section class="section-character">
-        
       </section>
     </section>
   </section>
@@ -65,4 +79,58 @@
 
 </html>
 <script>
+  var nomes = [
+    "Stone Free", "Star Platinum", "Burning Down The House", "Foo Fighters",
+    "Weather Forecast", "Kiss", "Diver Down", "Whitesnake", "The World"
+  ];
+
+  var imagens = [
+    "../assets/imgs/stand-stonefree.svg",
+    "../assets/imgs/stand-stonefree.svg",
+    "../assets/imgs/stand-stonefree.svg",
+    "../assets/imgs/stand-stonefree.svg",
+    "../assets/imgs/stand-stonefree.svg",
+    "../assets/imgs/stand-stonefree.svg",
+    "../assets/imgs/stand-stonefree.svg",
+    "../assets/imgs/stand-stonefree.svg",
+    "../assets/imgs/stand-stonefree.svg"
+  ];
+
+  var descricoes = [
+    "Goku é o protagonista de Dragon Ball, conhecido por sua coragem, bondade e desejo constante de superar seus limites.",
+    "Vegeta é o príncipe dos Saiyajins e rival de Goku. Orgulhoso, determinado e sempre buscando superar seu limite.",
+    "Broly é um Saiyajin de poder explosivo, com uma história marcada por exílio, raiva e força descontrolada.",
+    "Gohan é filho de Goku, inteligente e poderoso, com grande potencial mesmo evitando lutas.",
+    "Piccolo é um guerreiro Namekuseijin, mentor de Gohan e aliado crucial nas batalhas contra grandes ameaças.",
+    "Jiren é o mais forte do Universo 11, silencioso e extremamente poderoso, desafiante no Torneio do Poder.",
+    "Granolah é o último dos Cerealjins, busca vingança contra os Saiyajins e Frieza, mas passa por uma jornada de transformação.",
+    "Freeza é um dos vilões mais icônicos da série, cruel, inteligente e sempre retornando mais forte após derrotas.",
+    "Trunks é filho de Vegeta e Bulma, veio do futuro para alertar os guerreiros sobre ameaças que poderiam destruir a Terra."
+  ];
+
+  // Referência para onde os botões serão adicionados
+  var botoesContainer = document.getElementById("botoes-container");
+
+  for (var i = 0; i < nomes.length; i++) {
+    (function (indice) {
+      var botao = document.createElement("button");
+      botao.innerText = nomes[indice];
+      botao.onclick = function () {
+        mostrarPersonagem(indice);
+      };
+      botoesContainer.appendChild(botao);
+    })(i);
+  }
+
+  function mostrarPersonagem(indice) {
+    var titulo = document.querySelector("#personagem-info h2");
+    var imagem = document.getElementById("personagem-img");
+    var descricao = document.getElementById("personagem-descricao");
+
+    titulo.textContent = nomes[indice];
+    imagem.src = imagens[indice];
+    imagem.alt = nomes[indice];
+    imagem.style.display = "block";
+    descricao.textContent = descricoes[indice];
+  }
 </script>

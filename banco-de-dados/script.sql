@@ -3,7 +3,7 @@ CREATE DATABASE standinside;
 USE standinside;
 
 CREATE TABLE stand (
-    idstand INT PRIMARY KEY auto_increment,
+    idStand INT PRIMARY KEY auto_increment,
     nome VARCHAR(45) unique,
     descricao VARCHAR(255),
     caracteristicas VARCHAR(45),
@@ -15,40 +15,40 @@ CREATE TABLE usuario (
     nome VARCHAR(45),
     email VARCHAR(45) unique,
     senha VARCHAR(255),
-    stand_idstand INT NULL,
-    CONSTRAINT fk_usuario_stand FOREIGN KEY (stand_idstand) REFERENCES stand(idstand)
+    fkStand INT NULL,
+    CONSTRAINT fk_usuario_stand FOREIGN KEY (fkStand) REFERENCES stand(idStand)
 );
 
 CREATE TABLE quiz (
-    idquizz INT PRIMARY KEY auto_increment,
+    idQuiz INT PRIMARY KEY auto_increment,
     titulo VARCHAR(45),
     descricao VARCHAR(45),
     data_criacao DATETIME default current_timestamp
 );
 
 CREATE TABLE pergunta (
-    idpergunta INT PRIMARY KEY auto_increment,
-    idquizz INT,
-    TEXTO VARCHAR(255),
-    CONSTRAINT fk_pergunta_quizz FOREIGN KEY (idquizz) REFERENCES quiz(idquizz)
+    idPergunta INT PRIMARY KEY auto_increment,
+    fkQuiz INT,
+    texto VARCHAR(255),
+    CONSTRAINT fk_pergunta_quizz FOREIGN KEY (fkQuiz) REFERENCES quiz(idQuiz)
 );
 
 CREATE TABLE alternativa (
-    idalternativa INT PRIMARY KEY auto_increment,
+    idAlternativa INT PRIMARY KEY auto_increment,
     texto VARCHAR(255),
     letra CHAR(1) CHECK (letra IN ('a','b','c','d','e','f','g','h','i')),
-    idpergunta INT,
-    CONSTRAINT fk_alternativa_pergunta FOREIGN KEY (idpergunta) REFERENCES pergunta(idpergunta)
+    fkPergunta INT,
+    CONSTRAINT fk_alternativa_pergunta FOREIGN KEY (fkPergunta) REFERENCES pergunta(idPergunta)
 );
 
 CREATE TABLE resposta_usuario(
-    idresposta INT PRIMARY KEY auto_increment,
+    idResposta INT PRIMARY KEY auto_increment,
     data_resposta DATETIME,
     concordancia_stand TINYINT,
-    idusuario INT,
-    idquizz INT,
-    CONSTRAINT fk_usuario FOREIGN KEY (idusuario) REFERENCES usuario(idusuario),
-    CONSTRAINT fk_quizz FOREIGN KEY (idquizz) REFERENCES quiz(idquizz)
+    fkUsuario INT,
+    fkQuiz INT,
+    CONSTRAINT fk_usuario FOREIGN KEY (fkUsuario) REFERENCES usuario(idUsuario),
+    CONSTRAINT fk_quizz FOREIGN KEY (fkQuiz) REFERENCES quiz(idQuiz)
 );
 
 CREATE TABLE resposta_alternativa(
@@ -61,7 +61,7 @@ CREATE TABLE resposta_alternativa(
 
 -- ISERTS
 -- Inserir os stands com seus donos e atributos
-INSERT INTO stand (idstand, nome, descricao, caracteristicas, personagem) VALUES
+INSERT INTO stand (idStand, nome, descricao, caracteristicas, personagem) VALUES
 (default, 'Whitesnake', 'Stand de controle mental e manipulação de memórias', 'lealdade', 'Enrico Pucci'),
 (default, 'Stone Free', 'Stand de manipulação de fios', 'resiliência', 'Jolyne Kujo'),
 (default, 'Star Platinum', 'Stand de força física e percepção altamente desenvolvida', 'força', 'Jotaro Kujo'),
@@ -73,7 +73,7 @@ INSERT INTO stand (idstand, nome, descricao, caracteristicas, personagem) VALUES
 (default, 'The World', 'Stand de controle do tempo e domínio de movimentos', 'coragem', 'Dio Brando');
 
 
-INSERT INTO usuario (idUsuario, nome, email, senha, stand_idstand) VALUES
+INSERT INTO usuario (idUsuario, nome, email, senha, fkStand) VALUES
 (default, 'João Silva', 'joao@jojo.com', 'senha1', 2),
 (default, 'Maria Oliveira', 'maria@jojo.com', 'senha2', 6),
 (default, 'Carlos Almeida', 'carlos@jojo.com', 'senha3', 4),
@@ -91,11 +91,11 @@ INSERT INTO usuario (idUsuario, nome, email, senha, stand_idstand) VALUES
 (default, 'Ricardo Almeida', 'ricardo@jojo.com', 'senha15', 4);
 
 -- Inserir quiz
-INSERT INTO quiz (idquizz, titulo, descricao, data_criacao) VALUES
+INSERT INTO quiz (idQuiz, titulo, descricao, data_criacao) VALUES
 (default, 'Qual Stand é o seu? - Stone Ocean', 'Descubra qual Stand representa sua alma', default);
 
 
-INSERT INTO pergunta (idpergunta, idquizz, TEXTO) VALUES
+INSERT INTO pergunta (idPergunta, fkQuiz, TEXTO) VALUES
 (default, 1, 'Quando você está sob pressão, o que faz?'),
 (default, 1, 'Você está em um grupo que briga por justiça. Qual seu papel?'),
 (default, 1, 'Qual dessas frases mais te representa?'),
@@ -106,7 +106,7 @@ INSERT INTO pergunta (idpergunta, idquizz, TEXTO) VALUES
 (default, 1, 'Como você lida com a pressão de um grande objetivo?');
 
 -- alternativas pergunta 1
-INSERT INTO alternativa (idalternativa, texto, letra, idpergunta) VALUES
+INSERT INTO alternativa (idAlternativa, texto, letra, fkPergunta) VALUES
 (default, 'Prefiro resolver sozinho e em silêncio.', 'a', 1), 
 (default, 'Corro atrás da solução com foco.', 'b', 1), 
 (default, 'Me movimento rápido e enfrento de frente.', 'c', 1), 
@@ -118,7 +118,7 @@ INSERT INTO alternativa (idalternativa, texto, letra, idpergunta) VALUES
 (default, 'Lidero com determinação e coragem.', 'i', 1);
 
 -- alternativas pergunta 2
-INSERT INTO alternativa (idalternativa, texto, letra, idpergunta) VALUES
+INSERT INTO alternativa (idAlternativa, texto, letra, fkpergunta) VALUES
 (default, 'Aquele que usa inteligência emocional para controlar o grupo.', 'a', 2),
 (default, 'Líder corajoso.', 'b', 2),
 (default, 'Aquele que avança sem pensar nas consequências.', 'c', 2),
@@ -250,21 +250,23 @@ INSERT INTO resposta_alternativa (idresposta, idalternativa) VALUES
 
 -- selecionar todas as perguntas e alternativas de um quizz
 SELECT 
+	q.idQuiz AS quiz_id,
     q.titulo AS quiz_titulo, 
+    P.idPergunta AS pergunta_id,
     p.TEXTO AS pergunta_texto, 
+    a.idAlternativa AS alternativa_id,
     a.texto AS alternativa_texto, 
-    a.letra AS alternativa_letra,
-    a.idalternativa AS alternativa_id
+    a.letra AS alternativa_letra
 FROM 
     quiz q
 JOIN 
-    pergunta p ON q.idquizz = p.idquizz
+    pergunta p ON q.idQuiz = p.fkQuiz
 JOIN 
-    alternativa a ON p.idpergunta = a.idpergunta
+    alternativa a ON p.idPergunta = a.fkPergunta
 WHERE 
-    q.idquizz = 1
+    q.idQuiz = 1
 ORDER BY 
-    p.idpergunta, a.idalternativa;
+    p.idPergunta, a.idAlternativa;
 
 
  -- Select todas as as alternativas que um usuário especifico respondeu no quizz 

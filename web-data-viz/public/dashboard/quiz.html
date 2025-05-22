@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Quiz Stand</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-image: url(../assets/imgs/bg-quiz.svg);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+
+    .quiz-box {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      width: 600px;
+      margin: auto;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .pergunta {
+      font-weight: bold;
+      margin-bottom: 10px;
+      font-size: 1.2em;
+    }
+
+    .alternativa {
+      display: flex;
+      margin: 10px 0;
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 18px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      background-color: #b2e200;
+      color: black;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      opacity: 0.85;
+    }
+
+    button:hover:not(:disabled) {
+      background-color: #b2e200;
+    }
+
+    button:disabled {
+      background-color: #aeaeab;
+      cursor: not-allowed;
+    }
+
+    #startBtn {
+      display: block;
+      margin: 50px auto;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="quiz-box">
+    <h2 style="margin-bottom: 32px;" id="quizTitulo">Descubra seu stand - stone ocean</h2>
+    <button id="startBtn">Começar Quiz</button>
+
+    <div style="width: 100%;" id="quizContainer" class="hidden">
+      <div id="perguntaTexto" class="pergunta"></div>
+      <form id="alternativasContainer"></form>
+      <button id="btnProxima" disabled>Próxima</button>
+    </div>
+
+    <div id="resultado" class="hidden">
+      <h3>Suas respostas:</h3>
+      <ul id="respostasUsuario"></ul>
+    </div>
+  </div>
+</body>
+
+</html>
+<script>
+  let perguntas = [];
+  let respostas = [];
+  let indicePergunta = 0;
+  const fkQuiz = 1;
+
+  const startBtn = document.getElementById("startBtn");
+  const quizBox = document.getElementById("quizContainer");
+  const perguntaTexto = document.getElementById("perguntaTexto");
+  const alternativasContainer = document.getElementById("alternativasContainer");
+  const proximaBtn = document.getElementById("btnProxima");
+  const resultadoBox = document.getElementById("resultado");
+  const listaRespostas = document.getElementById("respostasUsuario");
+
+  startBtn.addEventListener("click", iniciarQuiz);
+  proximaBtn.addEventListener("click", irParaProximaPergunta);
+  alternativasContainer.addEventListener("change", () => {
+    proximaBtn.disabled = !alternativasContainer.querySelector("input[name='alternativa']:checked");
+  });
+
+  async function iniciarQuiz() {
+    try {
+      const res = await fetch(`/quiz/${fkQuiz}`);
+      const data = await res.json();
+
+      // Organizando as perguntas por ID
+      const perguntasMap = {};
+      data.forEach(item => {
+        if (!perguntasMap[item.pergunta_id]) {
+          perguntasMap[item.pergunta_id] = {
+            texto: item.pergunta_texto,
+            alternativas: []
+          };
+        }
+        perguntasMap[item.pergunta_id].alternativas.push({
+          letra: item.alternativa_letra,
+          texto: item.alternativa_texto
+        });
+      });
+
+      perguntas = Object.values(perguntasMap);
+      respostas = [];
+      indicePergunta = 0;
+
+      // startBtn.classList.add("hidden");
+      startBtn.style.display = "none";
+      quizBox.classList.remove("hidden");
+      mostrarPergunta();
+    } catch (error) {
+      alert("Erro ao carregar o quiz.");
+      console.error(error);
+    }
+  }
+
+  function mostrarPergunta() {
+    const pergunta = perguntas[indicePergunta];
+    perguntaTexto.textContent = pergunta.texto;
+    alternativasContainer.innerHTML = "";
+    proximaBtn.disabled = true;
+
+    pergunta.alternativas.forEach((alt, i) => {
+      const id = `pergunta${indicePergunta}_alt${i}`;
+
+      alternativasContainer.innerHTML += `
+      <label class="alternativa">
+        <input type="radio" name="alternativa" value="${alt.letra}">
+        ${alt.letra}) ${alt.texto}
+      </label>
+`;
+
+    });
+  }
+
+  function irParaProximaPergunta() {
+    const selecionada = alternativasContainer.querySelector("input[name='alternativa']:checked");
+    if (selecionada) {
+      respostas.push(selecionada.value);
+    }
+
+    indicePergunta++;
+
+    if (indicePergunta < perguntas.length) {
+      mostrarPergunta();
+    } else {
+      exibirResultado();
+    }
+  }
+
+  function exibirResultado() {
+    quizBox.classList.add("hidden");
+    resultadoBox.classList.remove("hidden");
+    listaRespostas.innerHTML = "";
+
+    respostas.forEach((resposta, i) => {
+      listaRespostas.innerHTML += `<li>Pergunta ${i + 1}: ${resposta}</li>`;
+    });
+  }
+</script>

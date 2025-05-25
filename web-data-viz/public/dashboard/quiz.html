@@ -1,9 +1,14 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Quiz Stand</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="../css/home.css">
+  <link rel="icon" href="../assets/logo.svg">
+
   <style>
     * {
       margin: 0;
@@ -13,27 +18,113 @@
 
     body {
       font-family: Arial, sans-serif;
-      padding: 20px;
+      height: 100vh;
+    }
+
+    .container-dash {
+      display: flex;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      height: 100vh;
+      background-color: #0a122a;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 24px 24px;
+      max-width: 40%;
+    }
+
+    .nav-bar {
+      display: flex;
+      flex-direction: column;
+      gap: 64px;
+    }
+
+    .logo {
+      max-width: 100px;
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    nav ul li {
+      margin-bottom: 24px;
+    }
+
+    nav ul li a {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 16px;
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      border-radius: 8px;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    nav ul li a:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    nav ul li a.active {
+      background-color: #d4ff3c;
+      color: #0a122a;
+    }
+
+    nav ul li a i {
+      width: 24px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    .footer {
+      font-size: 12px;
+      text-align: start;
+      padding: 16px;
+      color: #ccc;
+    }
+
+    .footer strong {
+      display: block;
+      margin-bottom: 8px;
+      color: white;
+    }
+
+    .content-secion {
+      flex: 1;
+      background-color: #fff;
+      display: flex;
+      flex-direction: column;
+      padding: 24px 72px;
+      overflow-y: auto;
+      color: #1c2541;
       background-image: url(../assets/imgs/bg-quiz.svg);
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
     }
-
 
     .quiz-box {
       display: flex;
+      overflow-y: auto;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       background: white;
       padding: 20px;
       border-radius: 8px;
-      width: 600px;
       margin: auto;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
@@ -88,22 +179,47 @@
 </head>
 
 <body>
+  <section class="container-dash">
+    <aside class="sidebar">
+      <div class="nav-bar">
+        <img class="logo" src="../assets/logo.svg" alt="Stand Inside" />
+        <nav role="navigation" aria-label="Menu principal">
+          <ul>
+            <li><a href="./home.html"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="./quiz.html" class="active"><i class="fas fa-clipboard-list"></i> Quizz</a></li>
+            <li><a href="#"><i class="fas fa-user-astronaut"></i> Seu Stand</a></li>
+            <li><a href="./dashboard.html"><i class="fas fa-chart-pie"></i> Dashbard</a></li>
+            <!-- <li><a href="#"><i class="fas fa-book-open"></i> Wiki</a></li> -->
+            <li><a href="#"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
+          </ul>
+        </nav>
+      </div>
+      <hr>
+      <div class="footer">
+        <strong>Stand Inside</strong>
+        © 2025 Todos os direitos reservados<br> <br>
+        Feito com <span class="heart">❤️</span> pela aluna<br> <br>
+        Beatriz Perez SpTech
+      </div>
+    </aside>
+    <section class="content-secion">
+      <div class="quiz-box">
+        <h2 style="margin-bottom: 32px;" id="quizTitulo">Descubra seu stand - stone ocean</h2>
+        <button id="startBtn">Começar Quiz</button>
 
-  <div class="quiz-box">
-    <h2 style="margin-bottom: 32px;" id="quizTitulo">Descubra seu stand - stone ocean</h2>
-    <button id="startBtn">Começar Quiz</button>
+        <div style="width: 100%;" id="quizContainer" class="hidden">
+          <div id="perguntaTexto" class="pergunta"></div>
+          <form id="alternativasContainer"></form>
+          <button id="btnProxima" disabled>Próxima</button>
+        </div>
 
-    <div style="width: 100%;" id="quizContainer" class="hidden">
-      <div id="perguntaTexto" class="pergunta"></div>
-      <form id="alternativasContainer"></form>
-      <button id="btnProxima" disabled>Próxima</button>
-    </div>
-
-    <div id="resultado" class="hidden">
-      <h3>Suas respostas:</h3>
-      <ul id="respostasUsuario"></ul>
-    </div>
-  </div>
+        <div id="resultado" class="hidden">
+          <h3>Suas respostas:</h3>
+          <ul id="respostasUsuario"></ul>
+        </div>
+      </div>
+    </section>
+  </section>
 </body>
 
 </html>
@@ -151,7 +267,6 @@
       respostas = [];
       indicePergunta = 0;
 
-      // startBtn.classList.add("hidden");
       startBtn.style.display = "none";
       quizBox.classList.remove("hidden");
       mostrarPergunta();
@@ -203,5 +318,56 @@
     respostas.forEach((resposta, i) => {
       listaRespostas.innerHTML += `<li>Pergunta ${i + 1}: ${resposta}</li>`;
     });
+
+    enviarResposta();
   }
+
+  function enviarResposta() {
+  const fkUsuario = sessionStorage.getItem("ID_USUARIO");
+  if (!fkUsuario) {
+    alert("Usuário não autenticado.");
+    return;
+  }
+
+  fetch("/quiz/resposta", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ fkQuiz, fkUsuario })
+  })
+  .then(response => {
+    if (!response.ok) throw new Error("Erro ao criar resposta.");
+    return fetch(`/quiz/resposta/ultima/${fkUsuario}`);
+  })
+  .then(response => {
+    if (!response.ok) throw new Error("Erro ao obter última resposta.");
+    return response.json();
+  })
+  .then(data => {
+    const fkResposta = data.idResposta;
+    if (!fkResposta) throw new Error("idResposta não encontrado.");
+
+    // Enviar cada alternativa separadamente na tabela resposta_alternativa
+    let promessas = respostas.map(letra => {
+      return fetch("/quiz/resposta/alternativa", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ fkResposta, letra })
+      })
+      .then(res => {
+        if (!res.ok) throw new Error("Erro ao registrar alternativa: " + letra);
+      });
+    });
+
+    return Promise.all(promessas);
+  })
+  .then(() => {
+    alert("Respostas enviadas com sucesso!");
+  })
+  .catch(erro => {
+    console.error(erro);
+    alert("Erro ao enviar respostas.");
+  });
+}
+
+
 </script>

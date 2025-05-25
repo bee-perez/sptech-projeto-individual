@@ -10,6 +10,42 @@ function buscarQuizComPerguntas(req, res) {
         });
 }
 
+function criarResposta(req, res) {
+  const { fkQuiz, fkUsuario } = req.body;
+
+  quizModel.criarResposta(fkQuiz, fkUsuario)
+      .then(() => res.status(201).send("Resposta registrada."))
+      .catch((erro) => {
+          console.error(erro);
+          res.status(500).send("Erro ao registrar resposta.");
+      });
+}
+
+function obterUltimaRespostaPorUsuario(req, res) {
+  const { idUsuario } = req.params;
+
+  quizModel.obterUltimaRespostaUsuario(idUsuario)
+      .then((resultado) => res.status(200).json(resultado[0]))
+      .catch((erro) => {
+          console.error(erro);
+          res.status(500).send("Erro ao buscar última resposta.");
+      });
+}
+
+function criarAlternativasPorResposta(req, res) {
+  const { fkResposta, letra } = req.body;
+
+  quizModel.criarAlternativaPorResposta(fkResposta, letra)
+      .then(() => res.status(201).send("Alternativa registrada."))
+      .catch((erro) => {
+          console.error(erro);
+          res.status(500).send("Erro ao registrar alternativa.");
+      });
+}
+
 module.exports = {
-  buscarQuizComPerguntas
+  buscarQuizComPerguntas,
+  criarResposta,
+  obterUltimaRespostaPorUsuario,
+  criarAlternativasPorResposta
 };

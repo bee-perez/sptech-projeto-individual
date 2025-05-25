@@ -53,10 +53,9 @@ CREATE TABLE resposta_usuario(
 
 CREATE TABLE resposta_alternativa(
     idresposta_alternativa INT PRIMARY KEY auto_increment,
-    idresposta INT,
-    idalternativa INT,
-    CONSTRAINT fk_resposta FOREIGN KEY (idresposta) REFERENCES resposta_usuario(idresposta),
-    CONSTRAINT fk_resposta_alternativa FOREIGN KEY (idalternativa) REFERENCES alternativa(idalternativa)
+    fkResposta INT,
+	letra CHAR(1),
+    CONSTRAINT fk_resposta FOREIGN KEY (fkResposta) REFERENCES resposta_usuario(idresposta)
 );
 
 -- ISERTS
@@ -74,21 +73,21 @@ INSERT INTO stand (idStand, nome, descricao, caracteristicas, personagem) VALUES
 
 
 INSERT INTO usuario (idUsuario, nome, email, senha, fkStand) VALUES
-(default, 'João Silva', 'joao@jojo.com', 'senha1', 2),
-(default, 'Maria Oliveira', 'maria@jojo.com', 'senha2', 6),
-(default, 'Carlos Almeida', 'carlos@jojo.com', 'senha3', 4),
-(default, 'Fernanda Souza', 'fernanda@jojo.com', 'senha4', 5),
-(default, 'Lucas Pereira', 'lucas@jojo.com', 'senha5', 6),
-(default, 'Amanda Costa', 'amanda@jojo.com', 'senha6', 8),
-(default, 'Renato Gomes', 'renato@jojo.com', 'senha7', 3),
-(default, 'Juliana Lima', 'juliana@jojo.com', 'senha8', 9),
-(default, 'Gabriel Santos', 'gabriel@jojo.com', 'senha9', 3),
-(default, 'Ana Clara', 'anaclara@jojo.com', 'senha10', 1),
-(default, 'Gustavo Martins', 'gustavo@jojo.com', 'senha11', 9),
-(default, 'Beatriz Rocha', 'beatriz@jojo.com', 'senha12', 7),
-(default, 'Marcos Ferreira', 'marcos@jojo.com', 'senha13', 2),
-(default, 'Patrícia Silva', 'patricia@jojo.com', 'senha14', 6),
-(default, 'Ricardo Almeida', 'ricardo@jojo.com', 'senha15', 4);
+(default, 'João Silva', 'joao@email.com', 'senha1', 2),
+(default, 'Maria Oliveira', 'maria@email.com', 'senha2', 6),
+(default, 'Carlos Almeida', 'carlos@email.com', 'senha3', 4),
+(default, 'Fernanda Souza', 'fernanda@email.com', 'senha4', 5),
+(default, 'Lucas Pereira', 'lucas@email.com', 'senha5', 6),
+(default, 'Amanda Costa', 'amanda@email.com', 'senha6', 8),
+(default, 'Renato Gomes', 'renato@email.com', 'senha7', 3),
+(default, 'Juliana Lima', 'juliana@email.com', 'senha8', 9),
+(default, 'Gabriel Santos', 'gabriel@email.com', 'senha9', 3),
+(default, 'Ana Clara', 'anaclara@email.com', 'senha10', 1),
+(default, 'Gustavo Martins', 'gustavo@email.com', 'senha11', 9),
+(default, 'Beatriz Rocha', 'beatriz@email.com', 'senha12', 7),
+(default, 'Marcos Ferreira', 'marcos@email.com', 'senha13', 2),
+(default, 'Patrícia Silva', 'patricia@email.com', 'senha14', 6),
+(default, 'Ricardo Almeida', 'ricardo@email.com', 'senha15', 4);
 
 -- Inserir quiz
 INSERT INTO quiz (idQuiz, titulo, descricao, data_criacao) VALUES
@@ -130,20 +129,20 @@ INSERT INTO alternativa (idAlternativa, texto, letra, fkpergunta) VALUES
 (default, 'O que resolve com ações rápidas e eficientes.', 'i', 2);
 
 -- alternativas pergunta 3
-INSERT INTO alternativa (idalternativa, texto, letra, idpergunta) VALUES
-(default, '“Não descanso até cumprir meu propósito.”', 'b', 3),
-(default, '“A liberdade está dentro de mim.”', 'a', 3),
-(default, '“A ação é a única forma de mudar."', 'g', 3),
-(default, '“O tempo é a chave para a mudança.”', 'i', 3),
-(default, '“Entender os outros me fortalece.”', 'c', 3),
+INSERT INTO alternativa (idAlternativa, texto, letra, fkPergunta) VALUES
+(default, '“Não descanso até cumprir meu propósito.”', 'a', 3),
+(default, '“A liberdade está dentro de mim.”', 'b', 3),
+(default, '“A ação é a única forma de mudar.”', 'c', 3),
 (default, '“Tudo tem um tempo, até a emoção.”', 'd', 3),
-(default, '“Eu sigo meu caminho com coragem.”', 'e', 3),
-(default, '“A perfeição é alcançada com esforço constante.”', 'f', 3),
-(default, '“Eu vivo cada momento como se fosse o último.”', 'h', 3);
+(default, '“Entender os outros me fortalece.”', 'e', 3),
+(default, '“Eu sigo meu caminho com coragem.”', 'f', 3),
+(default, '“A união faz minha força.”', 'g', 3),
+(default, '“Eu vivo cada momento como se fosse o último.”', 'h', 3),
+(default, '“O tempo é a chave para a mudança.”', 'i', 3);
 
 -- alternativas pergunta 4
 
-INSERT INTO alternativa (idalternativa, texto, letra, idpergunta) VALUES
+INSERT INTO alternativa (idAlternativa, texto, letra, fkPergunta) VALUES
 (default, 'Busco seguir em frente rápido.', 'a', 4),
 (default, 'Mantenho a calma e analiso a situação.', 'b', 4),
 (default, 'Procurando a verdade em cada momento.', 'c', 4),
@@ -155,7 +154,7 @@ INSERT INTO alternativa (idalternativa, texto, letra, idpergunta) VALUES
 (default, 'Enfrento com ação direta.', 'i', 4);
 
 -- alternativas pergunta 5
-INSERT INTO alternativa (idalternativa, texto, letra, idpergunta) VALUES
+INSERT INTO alternativa (idAlternativa, texto, letra, fkPergunta) VALUES
 (default, 'Controle do tempo.', 'a', 5),
 (default, 'Socos rápidos e precisos.', 'b', 5),
 (default, 'Força imbatível e coragem.', 'c', 5),
@@ -167,7 +166,7 @@ INSERT INTO alternativa (idalternativa, texto, letra, idpergunta) VALUES
 (default, 'Controle absoluto do espaço e tempo.', 'i', 5);
 
 -- alternativas pergunta 6
-INSERT INTO alternativa (idalternativa, texto, letra, idpergunta) VALUES
+INSERT INTO alternativa (idAlternativa, texto, letra, fkPergunta) VALUES
 (default, 'Com inteligência emocional e foco.', 'a', 6),
 (default, 'Enfrento com coragem e determinação.', 'b', 6),
 (default, 'Agindo rapidamente e sem hesitação.', 'c', 6),
@@ -180,7 +179,7 @@ INSERT INTO alternativa (idalternativa, texto, letra, idpergunta) VALUES
 
 
 -- alternativas pergunta 7
-INSERT INTO alternativa (idalternativa, texto, letra, idpergunta) VALUES
+INSERT INTO alternativa (idAlternativa, texto, letra, fkPergunta) VALUES
 (default, 'Eu me mantenho firme na minha visão.', 'a', 7),
 (default, 'Eu sou implacável na defesa da verdade.', 'b', 7),
 (default, 'Eu me defendo com tudo o que tenho.', 'c', 7),
@@ -192,7 +191,7 @@ INSERT INTO alternativa (idalternativa, texto, letra, idpergunta) VALUES
 (default, 'Eu enfrento de maneira prática e rápida.', 'i', 7);
 
 -- alternativas pergunta 8
-INSERT INTO alternativa (idalternativa, texto, letra, idpergunta) VALUES
+INSERT INTO alternativa (idAlternativa, texto, letra, fkPergunta) VALUES
 (default, 'Com uma visão clara e foco absoluto.', 'a', 8),
 (default, 'Com coragem, sempre em frente.', 'b', 8),
 (default, 'Com estratégias rápidas e precisas.', 'c', 8),
@@ -203,48 +202,9 @@ INSERT INTO alternativa (idalternativa, texto, letra, idpergunta) VALUES
 (default, 'Com lealdade ao meu objetivo, sem desviar.', 'h', 8),
 (default, 'Enfrento com rapidez e força de vontade.', 'i', 8);
 
-INSERT INTO resposta_usuario (idresposta, data_resposta, concordancia_stand, idusuario, idquizz) VALUES
-(default, default, 1, 1, 1),
-(default, default, 1, 2, 1),
-(default, default, 1, 3, 1),
-(default, default, 1, 4, 1),
-(default, default, 1, 5, 1),
-(default, default, 1, 6, 1),
-(default, default, 1, 7, 1),
-(default, default, 1, 8, 1),
-(default, default, 1, 9, 1),
-(default, default, 1, 10, 1),
-(default, default, 1, 11, 1),
-(default, default, 0, 12, 1),
-(default, default, 0, 13, 1),
-(default, default, 0, 14, 1),
-(default, default, 0, 15, 1);
+ 
 
--- Inserir respostas alternativas para cada usuário
-
--- João Silva - Stand 'Stone Free'
-INSERT INTO resposta_alternativa (idresposta, idalternativa) VALUES 
-(1, 2),  
-(1, 11),
-(1, 20), 
-(1, 29), 
-(1, 38),  
-(1, 47),  
-(1, 57),  
-(1, 64);  
-
--- Maria Oliveira - Stand 'Weather Forecast'
-INSERT INTO resposta_alternativa (idresposta, idalternativa) VALUES 
-(2, 6),  
-(2, 15), 
-(2, 26), 
-(2, 31), 
-(2, 40),  
-(2, 50),  
-(2, 59), 
-(2, 72);  
-
--- lembrar de adicionar o resto
+-- lembrar de adicionar dados de respostas
 
 
 
@@ -331,3 +291,42 @@ FROM stand;
 
 SELECT * FROM usuario;
 
+-- pegar as respostas do usuario
+SELECT
+    u.idUsuario,
+    u.nome AS nome_usuario,
+    ru.idResposta,
+    ru.data_resposta,
+    ra.idresposta_alternativa,
+    ra.letra
+FROM
+    resposta_usuario ru
+JOIN usuario u ON ru.fkUsuario = u.idUsuario
+JOIN resposta_alternativa ra ON ra.fkResposta = ru.idResposta
+ORDER BY
+    u.idUsuario,
+    ru.idResposta,
+    ra.idresposta_alternativa;
+
+-- pegar a ultima resposta
+SELECT
+    u.idUsuario,
+    u.nome AS nome_usuario,
+    ru.idResposta,
+    ru.data_resposta,
+    ra.idresposta_alternativa,
+    ra.letra
+FROM
+    usuario u
+JOIN resposta_usuario ru ON ru.fkUsuario = u.idUsuario
+JOIN resposta_alternativa ra ON ra.fkResposta = ru.idResposta
+JOIN (
+    -- Subquery que retorna a última data_resposta para cada usuário
+    SELECT fkUsuario, MAX(data_resposta) AS ultima_data
+    FROM resposta_usuario
+    GROUP BY fkUsuario
+) ult ON ult.fkUsuario = ru.fkUsuario AND ult.ultima_data = ru.data_resposta
+ORDER BY
+    u.idUsuario,
+    ru.idResposta,
+    ra.idresposta_alternativa;

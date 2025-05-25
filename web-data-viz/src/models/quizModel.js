@@ -20,10 +20,42 @@ function buscarQuiz(fkQuiz) {
   return database.executar(instrucao);
 }
 
+function criarResposta(fkQuiz, fkUsuario) {
+    const instrucao = `
+        INSERT INTO resposta_usuario (data_resposta, fkUsuario, fkQuiz)
+        VALUES (NOW(), ${fkUsuario}, ${fkQuiz});
+    `;
+    return database.executar(instrucao);
+}
+
+function obterUltimaRespostaUsuario(fkUsuario) {
+    const instrucao = `
+        SELECT idResposta FROM resposta_usuario
+        WHERE fkUsuario = ${fkUsuario}
+        ORDER BY idResposta DESC LIMIT 1;
+    `;
+    return database.executar(instrucao);
+}
+
+function criarAlternativaPorResposta(fkResposta, letra) {
+  const instrucao = `
+    INSERT INTO resposta_alternativa (fkResposta, letra)
+    VALUES (${fkResposta}, '${letra}');
+  `;
+  return database.executar(instrucao);
+}
 
 module.exports = {
-  buscarQuiz
+  buscarQuiz,
+  criarResposta,
+  obterUltimaRespostaUsuario,
+  criarAlternativaPorResposta
 };
+
+//funcao dar update da tabela e inserir a concordancua com o stand
+
+
+
 
 
 

@@ -6,176 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Quiz Stand</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link rel="stylesheet" href="../css/home.css">
+  <link rel="stylesheet" href="../css/quiz.css">
   <link rel="icon" href="../assets/logo.svg">
-
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: Arial, sans-serif;
-      height: 100vh;
-    }
-
-    .container-dash {
-      display: flex;
-      width: 100%;
-      height: 100vh;
-      overflow: hidden;
-    }
-
-    /* SIDEBAR */
-    .sidebar {
-      height: 100vh;
-      background-color: #0a122a;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 24px 24px;
-      max-width: 40%;
-    }
-
-    .nav-bar {
-      display: flex;
-      flex-direction: column;
-      gap: 64px;
-    }
-
-    .logo {
-      max-width: 100px;
-    }
-
-    nav ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    nav ul li {
-      margin-bottom: 24px;
-    }
-
-    nav ul li a {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 16px 16px;
-      color: white;
-      text-decoration: none;
-      font-weight: 600;
-      border-radius: 8px;
-      transition: background 0.3s ease, color 0.3s ease;
-    }
-
-    nav ul li a:hover {
-      background-color: rgba(255, 255, 255, 0.1);
-    }
-
-    nav ul li a.active {
-      background-color: #d4ff3c;
-      color: #0a122a;
-    }
-
-    nav ul li a i {
-      width: 24px;
-      text-align: center;
-      font-size: 16px;
-    }
-
-    .footer {
-      font-size: 12px;
-      text-align: start;
-      padding: 16px;
-      color: #ccc;
-    }
-
-    .footer strong {
-      display: block;
-      margin-bottom: 8px;
-      color: white;
-    }
-
-    .content-secion {
-      flex: 1;
-      background-color: #fff;
-      display: flex;
-      flex-direction: column;
-      padding: 24px 72px;
-      overflow-y: auto;
-      color: #1c2541;
-      background-image: url(../assets/imgs/bg-quiz.svg);
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-    }
-
-    .quiz-box {
-      display: flex;
-      overflow-y: auto;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      margin: auto;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .pergunta {
-      font-weight: bold;
-      margin-bottom: 10px;
-      font-size: 1.2em;
-    }
-
-    .alternativa {
-      display: flex;
-      margin: 10px 0;
-      cursor: pointer;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    button {
-      margin-top: 20px;
-      padding: 10px 18px;
-      font-size: 16px;
-      border: none;
-      border-radius: 6px;
-      background-color: #b2e200;
-      color: black;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    button:hover {
-      opacity: 0.85;
-    }
-
-    button:hover:not(:disabled) {
-      background-color: #b2e200;
-    }
-
-    button:disabled {
-      background-color: #aeaeab;
-      cursor: not-allowed;
-    }
-
-    #startBtn {
-      display: block;
-      margin: 50px auto;
-      font-weight: bold;
-    }
-  </style>
+  <script src="../js/sessao.js"></script>
 </head>
 
 <body>
@@ -187,7 +20,7 @@
           <ul>
             <li><a href="./home.html"><i class="fas fa-home"></i> Home</a></li>
             <li><a href="./quiz.html" class="active"><i class="fas fa-clipboard-list"></i> Quizz</a></li>
-            <li><a href="#"><i class="fas fa-user-astronaut"></i> Seu Stand</a></li>
+            <!-- <li><a href="#"><i class="fas fa-user-astronaut"></i> Seu Stand</a></li> -->
             <li><a href="./dashboard.html"><i class="fas fa-chart-pie"></i> Dashbard</a></li>
             <!-- <li><a href="#"><i class="fas fa-book-open"></i> Wiki</a></li> -->
             <li><a href="#"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
@@ -216,6 +49,18 @@
         <div id="resultado" class="hidden">
           <h3>Suas respostas:</h3>
           <ul id="respostasUsuario"></ul>
+
+          <div id="concordanciaForm"
+            style="display: none; margin-top: 20px; padding: 10px; background-color: #eef6f9; border-radius: 8px;">
+            <p>Você concorda com o resultado do seu Stand?</p>
+            <label><input type="radio" name="concordancia" value="1"> Sim</label>
+            <label><input type="radio" name="concordancia" value="0"> Não</label>
+            <button id="btnEnviarConcordancia" disabled>Enviar</button>
+          </div>
+
+          <a href="./dashboard.html" id="btnDashboard" class="botao-dashboard"
+            style="display:none; margin-top: 15px;">Ver Dashboard</a>
+
         </div>
       </div>
     </section>
@@ -228,6 +73,8 @@
   let respostas = [];
   let indicePergunta = 0;
   const fkQuiz = 1;
+
+  let idUltimaResposta = null;
 
   const startBtn = document.getElementById("startBtn");
   const quizBox = document.getElementById("quizContainer");
@@ -242,6 +89,15 @@
   alternativasContainer.addEventListener("change", () => {
     proximaBtn.disabled = !alternativasContainer.querySelector("input[name='alternativa']:checked");
   });
+
+  //só habilito o botao de enviar se concorda com resultado caso um radio seja selecionado
+  document.querySelectorAll('input[name="concordancia"]').forEach(input => {
+    input.addEventListener('change', () => {
+      document.getElementById("btnEnviarConcordancia").disabled = false;
+    });
+  });
+
+  document.getElementById("btnEnviarConcordancia").addEventListener("click", enviarConcordancia);
 
   async function iniciarQuiz() {
     try {
@@ -310,64 +166,224 @@
     }
   }
 
+  function enviarConcordancia() {
+    const concordanciaSelecionada = document.querySelector('input[name="concordancia"]:checked');
+    if (!concordanciaSelecionada) return;
+
+    const concordancia = Number(concordanciaSelecionada.value); 
+
+    fetch("/quiz/resposta/concordancia", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        idResposta: idUltimaResposta,
+        concordancia: concordancia
+      })
+    })
+      .then(res => {
+        if (!res.ok) throw new Error("Erro ao enviar concordância.");
+        document.getElementById("btnDashboard").style.display = "block";
+        document.getElementById("btnEnviarConcordancia").disabled = true;
+        console.log("Concordância registrada.");
+        document.getElementById("concordanciaForm").style.display = "none";
+      })
+      .catch(err => {
+        console.error("Erro ao registrar concordância:", err);
+        alert("Erro ao enviar concordância.");
+      });
+  }
+
   function exibirResultado() {
     quizBox.classList.add("hidden");
     resultadoBox.classList.remove("hidden");
     listaRespostas.innerHTML = "";
 
-    respostas.forEach((resposta, i) => {
-      listaRespostas.innerHTML += `<li>Pergunta ${i + 1}: ${resposta}</li>`;
-    });
+    // respostas.forEach((resposta, i) => {
+    //   listaRespostas.innerHTML += `<li>Pergunta ${i + 1}: ${resposta}</li>`;
+    // });
+
+    for (let i = 0; i < respostas.length; i++) {
+      listaRespostas.innerHTML += `<li>Pergunta ${i + 1}: ${respostas[i]}</li>`;
+    }
 
     enviarResposta();
+
+
+    // Contar quantas vezes cada letra apareceu
+    let contagem = {};
+    for (let i = 0; i < respostas.length; i++) {
+      let letra = respostas[i];
+      if (contagem[letra] === undefined) {
+        contagem[letra] = 1;
+      } else {
+        contagem[letra] += 1;
+      }
+    }
+
+    // Ver qual letra apareceu mais 
+    let letras = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'];
+    let maiorQtd = 0;
+    let letrasMaisEscolhidas = [];
+
+    for (let i = 0; i < letras.length; i++) {
+      let letra = letras[i];
+
+      if (contagem[letra] === undefined) {
+        contagem[letra] = 0;
+      }
+
+      if (contagem[letra] > maiorQtd) {
+        maiorQtd = contagem[letra];
+        letrasMaisEscolhidas = [letra];
+      } else if (contagem[letra] === maiorQtd) {
+        letrasMaisEscolhidas.push(letra);
+      }
+    }
+
+    console.log(contagem);
+
+    //Exemplo de como o objeto vai ficar depois do loop:
+    // contagem = {
+    //   a: 3,
+    //   b: 2,
+    //   c: 1
+    // };
+
+    // empate, sortear uma letra
+    let letraEscolhida = "";
+    if (letrasMaisEscolhidas.length === 1) {
+      letraEscolhida = letrasMaisEscolhidas[0];
+    } else {
+      let indiceSorteado = Math.floor(Math.random() * letrasMaisEscolhidas.length);
+      letraEscolhida = letrasMaisEscolhidas[indiceSorteado];
+    }
+
+    let caminhoImagem = ``;
+
+    let personagemFinal = "";
+    if (letraEscolhida === 'a') {
+      personagemFinal = "Whitesnake";
+      caminhoImagem = `../assets/imgs/stand-whitesnake.svg`;
+    } else if (letraEscolhida === 'b') {
+      personagemFinal = "Stone Free";
+      caminhoImagem = `../assets/imgs/stand-stonefree.svg`;
+    } else if (letraEscolhida === 'c') {
+      personagemFinal = "Star Platinum";
+      caminhoImagem = `../assets/imgs/stand-star-platinum.svg`;
+    } else if (letraEscolhida === 'd') {
+      personagemFinal = "Burning Down the House";
+      caminhoImagem = `../assets/imgs/stand-burning.svg`;
+    } else if (letraEscolhida === 'e') {
+      personagemFinal = "Foo Fighters";
+      caminhoImagem = `../assets/imgs/stand-foo.svg`;
+    } else if (letraEscolhida === 'f') {
+      personagemFinal = "Weather Forecast";
+      caminhoImagem = `../assets/imgs/stand-weather.svg`;
+    } else if (letraEscolhida === 'g') {
+      personagemFinal = "Kiss";
+      caminhoImagem = `../assets/imgs/stand-kiss.svg`;
+    } else if (letraEscolhida === 'h') {
+      personagemFinal = "Diver Down";
+      caminhoImagem = `../assets/imgs/stand-diver.svg`;
+    } else if (letraEscolhida === 'i') {
+      personagemFinal = "The World";
+      caminhoImagem = `../assets/imgs/stand-theworld.svg`;
+    } else {
+      personagemFinal = "Personagem desconhecido";
+      caminhoImagem = `../assets/imgs/`;
+    }
+
+    fetch(`/quiz/stand/${personagemFinal}`)
+      .then(res => {
+        if (!res.ok) throw new Error("Erro ao buscar stand no banco.");
+        return res.json();
+      })
+      .then(stand => {
+        // Exibe as informações
+        listaRespostas.innerHTML += `
+      <img src="${caminhoImagem}" alt="Imagem do Stand ${stand.nome}" style="width: 300px; margin-top: 15px;" />
+      <li><strong>Seu Stand é:</strong> ${stand.nome}</li>
+      <li><strong>Descrição:</strong> ${stand.descricao}</li>
+      <li><strong>Características:</strong> ${stand.caracteristicas}</li>
+      <li><strong>Personagem Dono:</strong> ${stand.personagem}</li>
+      <br>
+    `;
+
+        // Salva o stand para o usuário
+        const idUsuario = sessionStorage.ID_USUARIO;
+
+        fetch('/quiz/salvar-stand', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            idUsuario: idUsuario,
+            idStand: stand.idStand
+          })
+        })
+          .then(res => {
+            if (!res.ok) throw new Error("Erro ao salvar stand no usuário.");
+            console.log("Stand salvo com sucesso!");
+          })
+          .catch(erro => {
+            console.error("Erro ao salvar stand no usuário:", erro);
+          });
+      })
+      .catch(erro => {
+        console.error("Erro ao carregar stand:", erro);
+        listaRespostas.innerHTML += `<li><strong>Erro ao buscar informações do stand.</strong></li>`;
+      });
+
+
   }
 
   function enviarResposta() {
-  const fkUsuario = sessionStorage.getItem("ID_USUARIO");
-  if (!fkUsuario) {
-    alert("Usuário não autenticado.");
-    return;
-  }
+    const fkUsuario = sessionStorage.getItem("ID_USUARIO");
+    if (!fkUsuario) {
+      alert("Usuário não autenticado.");
+      return;
+    }
 
-  fetch("/quiz/resposta", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ fkQuiz, fkUsuario })
-  })
-  .then(response => {
-    if (!response.ok) throw new Error("Erro ao criar resposta.");
-    return fetch(`/quiz/resposta/ultima/${fkUsuario}`);
-  })
-  .then(response => {
-    if (!response.ok) throw new Error("Erro ao obter última resposta.");
-    return response.json();
-  })
-  .then(data => {
-    const fkResposta = data.idResposta;
-    if (!fkResposta) throw new Error("idResposta não encontrado.");
-
-    // Enviar cada alternativa separadamente na tabela resposta_alternativa
-    let promessas = respostas.map(letra => {
-      return fetch("/quiz/resposta/alternativa", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ fkResposta, letra })
+    fetch("/quiz/resposta", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ fkQuiz, fkUsuario })
+    })
+      .then(response => {
+        if (!response.ok) throw new Error("Erro ao criar resposta.");
+        return fetch(`/quiz/resposta/ultima/${fkUsuario}`);
       })
-      .then(res => {
-        if (!res.ok) throw new Error("Erro ao registrar alternativa: " + letra);
-      });
-    });
+      .then(response => {
+        if (!response.ok) throw new Error("Erro ao obter última resposta.");
+        return response.json();
+      })
+      .then(data => {
+        const fkResposta = data.idResposta;
+        if (!fkResposta) throw new Error("idResposta não encontrado.");
+        idUltimaResposta = fkResposta;
 
-    return Promise.all(promessas);
-  })
-  .then(() => {
-    alert("Respostas enviadas com sucesso!");
-  })
-  .catch(erro => {
-    console.error(erro);
-    alert("Erro ao enviar respostas.");
-  });
-}
+        // Enviar cada alternativa separadamente na tabela resposta_alternativa
+        let promessas = respostas.map(letra => {
+          return fetch("/quiz/resposta/alternativa", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ fkResposta, letra })
+          })
+            .then(res => {
+              if (!res.ok) throw new Error("Erro ao registrar alternativa: " + letra);
+            });
+        });
+
+        return Promise.all(promessas);
+      })
+      .then(() => {
+        alert("Respostas enviadas com sucesso!");
+        document.getElementById("concordanciaForm").style.display = "block";
+      })
+      .catch(erro => {
+        console.error(erro);
+        alert("Erro ao enviar respostas.");
+      });
+  }
 
 
 </script>

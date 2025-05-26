@@ -45,18 +45,36 @@ function criarAlternativaPorResposta(fkResposta, letra) {
   return database.executar(instrucao);
 }
 
+function buscarStandPorNome(nome) {
+  const instrucao = `
+    SELECT * FROM stand WHERE nome = '${nome}';
+  `;
+  return database.executar(instrucao);
+}
+
+function salvarStandUsuario(idUsuario, idStand) {
+  const instrucao = `
+    UPDATE usuario SET fkStand = ${idStand} WHERE idUsuario = ${idUsuario};
+  `;
+  return database.executar(instrucao);
+}
+
+function atualizarConcordanciaStand(idResposta, concordancia) {
+  const instrucao = `
+      UPDATE resposta_usuario
+      SET concordancia_stand = ${concordancia}
+      WHERE idResposta = ${idResposta};
+  `;
+  return database.executar(instrucao);
+}
+
 module.exports = {
   buscarQuiz,
   criarResposta,
   obterUltimaRespostaUsuario,
-  criarAlternativaPorResposta
+  criarAlternativaPorResposta,
+  buscarStandPorNome,
+  salvarStandUsuario,
+  atualizarConcordanciaStand
 };
-
-//funcao dar update da tabela e inserir a concordancua com o stand
-
-
-
-
-
-
 

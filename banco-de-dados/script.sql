@@ -44,7 +44,7 @@ CREATE TABLE alternativa (
 CREATE TABLE resposta_usuario(
     idResposta INT PRIMARY KEY auto_increment,
     data_resposta DATETIME,
-    concordancia_stand TINYINT,
+    concordancia_stand TINYINT DEFAULT 0,
     fkUsuario INT,
     fkQuiz INT,
     CONSTRAINT fk_usuario FOREIGN KEY (fkUsuario) REFERENCES usuario(idUsuario),
@@ -87,7 +87,8 @@ INSERT INTO usuario (idUsuario, nome, email, senha, fkStand) VALUES
 (default, 'Beatriz Rocha', 'beatriz@email.com', 'senha12', 7),
 (default, 'Marcos Ferreira', 'marcos@email.com', 'senha13', 2),
 (default, 'Patrícia Silva', 'patricia@email.com', 'senha14', 6),
-(default, 'Ricardo Almeida', 'ricardo@email.com', 'senha15', 4);
+(default, 'José Ferreira', 'jose@email.com', 'senha14', 6);
+
 
 -- Inserir quiz
 INSERT INTO quiz (idQuiz, titulo, descricao, data_criacao) VALUES
@@ -204,8 +205,74 @@ INSERT INTO alternativa (idAlternativa, texto, letra, fkPergunta) VALUES
 
  
 
--- lembrar de adicionar dados de respostas
+-- respostas:
+INSERT INTO resposta_usuario (data_resposta, concordancia_stand, fkUsuario, fkQuiz)
+VALUES
+-- Usuários que responderam (com concordância 0 ou 1)
+('2025-06-01 10:00:00', 1,  1, 1),
+('2025-06-02 11:00:00', 0,  2, 1),
+('2025-06-03 12:00:00', 1,  3, 1),
+('2025-06-04 13:00:00', 0,  4, 1),
+('2025-06-05 14:00:00', 1,  5, 1),
+('2025-06-06 15:00:00', 0,  6, 1),
+('2025-06-07 16:00:00', 1,  7, 1),
+('2025-06-08 17:00:00', 0,  8, 1),
+('2025-06-09 18:00:00', 1,  9, 1),
+('2025-06-10 19:00:00', 0, 10, 1),
+('2025-06-11 20:00:00', 1, 11, 1),
+('2025-06-12 21:00:00', 0, 12, 1),
+('2025-06-13 22:00:00', 1, 13, 1),
+-- Usuários sem concordância
+('2025-06-14 23:00:00', NULL, 14, 1),
+('2025-06-15 09:00:00', NULL, 15, 1);
 
+-- respostas alternativas
+INSERT INTO resposta_alternativa (fkResposta, letra)
+VALUES
+-- joão Silva 
+(1, 'b'),(1, 'b'),(1, 'b'),(1, 'b'),(1, 'b'),(1, 'b'),(1, 'b'),(1, 'b'),
+
+-- Maria Oliveira 
+(2, 'f'),(2, 'f'),(2, 'f'),(2, 'f'),(2, 'f'),(2, 'f'),(2, 'f'),(2, 'f'),
+
+-- Carlos Almeid
+(3, 'd'),(3, 'd'),(3, 'd'),(3, 'd'),(3, 'd'),(3, 'd'),(3, 'd'),(3, 'd'),
+
+-- Fernanda Souza 
+(4, 'e'),(4, 'e'),(4, 'e'),(4, 'e'),(4, 'e'),(4, 'e'),(4, 'e'),(4, 'e'),
+
+-- Lucas Pereira 
+(5, 'f'),(5, 'f'),(5, 'f'),(5, 'f'),(5, 'f'),(5, 'f'),(5, 'f'),(5, 'f'),
+
+-- Amanda Costa 
+(6, 'h'),(6, 'h'),(6, 'h'),(6, 'h'),(6, 'h'),(6, 'h'),(6, 'h'),(6, 'h'),
+
+-- Renato Gomes 
+(7, 'c'),(7, 'c'),(7, 'c'),(7, 'c'),(7, 'c'),(7, 'c'),(7, 'c'),(7, 'c'),
+
+-- Juliana Lima 
+(8, 'i'),(8, 'i'),(8, 'i'),(8, 'i'),(8, 'i'),(8, 'i'),(8, 'i'),(8, 'i'),
+
+-- Gabriel Santos
+(9, 'c'),(9, 'c'),(9, 'c'),(9, 'c'),(9, 'c'),(9, 'c'),(9, 'c'),(9, 'c'),
+
+-- Ana Clara
+(10, 'a'),(10, 'a'),(10, 'a'),(10, 'a'),(10, 'a'),(10, 'a'),(10, 'a'),(10, 'a'),
+
+-- Gustavo Martins 
+(11, 'i'),(11, 'i'),(11, 'i'),(11, 'i'),(11, 'i'),(11, 'i'),(11, 'i'),(11, 'i'),
+
+-- Beatriz Rocha 
+(12, 'g'),(12, 'g'),(12, 'g'),(12, 'g'),(12, 'g'),(12, 'g'),(12, 'g'),(12, 'g'),
+
+-- Marcos Ferreira 
+(13, 'b'),(13, 'b'),(13, 'b'),(13, 'b'),(13, 'b'),(13, 'b'),(13, 'b'),(13, 'b'),
+
+-- Patrícia Silva 
+(14, 'f'),(14, 'f'),(14, 'f'),(14, 'f'),(14, 'f'),(14, 'f'),(14, 'f'),(14, 'f'),
+
+-- José Ferreira
+(15, 'f'),(15, 'f'),(15, 'f'),(15, 'f'),(15, 'f'),(15, 'f'),(15, 'f'),(15, 'f');
 
 
 -- selecionar todas as perguntas e alternativas de um quizz
@@ -229,104 +296,8 @@ ORDER BY
     p.idPergunta, a.idAlternativa;
 
 
- -- Select todas as as alternativas que um usuário especifico respondeu no quizz 
- 
-SELECT 
-    a.letra AS alternativa,
-    COUNT(ra.idresposta_alternativa) AS quantidade_respostas
-FROM 
-    resposta_alternativa ra
-JOIN 
-    alternativa a ON ra.idalternativa = a.idalternativa
-JOIN 
-    resposta_usuario ru ON ra.idresposta = ru.idresposta
-WHERE 
-    ru.idusuario = 2
-GROUP BY 
-    a.letra
-ORDER BY 
-    quantidade_respostas DESC;
-    
-    
--- selecionar a quantidade de usuários que possuem o mesmo Stand com base no nome do Stand
-SELECT u.nome AS nome_usuario, s.nome AS nome_stand, q.idquizz
-FROM usuario u
-JOIN stand s ON u.stand_idstand = s.idstand
-JOIN resposta_usuario r ON u.idusuario = r.idusuario
-JOIN quiz q ON r.idquizz = q.idquizz
-WHERE s.nome = 'Stone Free';
-
--- selecionar o número de usuários que responderam ao quiz
-SELECT COUNT(DISTINCT idusuario) AS total_usuarios_responderam
-FROM resposta_usuario;
-
--- selecionar os 3 Stands mais tirados
-SELECT 
-    s.nome AS nome_stand,
-    COUNT(u.idusuario) AS total_usuarios
-FROM 
-    usuario u
-JOIN 
-    stand s ON u.stand_idstand = s.idstand
-GROUP BY 
-    s.nome
-ORDER BY 
-    total_usuarios DESC
-LIMIT 3;
-
--- selecionar a quantidade de usuários que concordam, discordam ou não responderam à pergunta de concordância com stand
-SELECT
-  CASE
-    WHEN concordancia_stand = 1 THEN 'Concorda'
-    WHEN concordancia_stand = 0 THEN 'Discorda'
-    ELSE 'Não respondeu'
-  END AS situacao,
-  COUNT(*) AS quantidade
-FROM resposta_usuario
-GROUP BY situacao;
-
--- selecionar todos os nomes dos Stands e todos os seus atributos
-SELECT nome, caracteristicas
-FROM stand;
 
 SELECT * FROM usuario;
+SELECT * FROM resposta_usuario WHERE idResposta = 16;
 
--- pegar as respostas do usuario
-SELECT
-    u.idUsuario,
-    u.nome AS nome_usuario,
-    ru.idResposta,
-    ru.data_resposta,
-    ra.idresposta_alternativa,
-    ra.letra
-FROM
-    resposta_usuario ru
-JOIN usuario u ON ru.fkUsuario = u.idUsuario
-JOIN resposta_alternativa ra ON ra.fkResposta = ru.idResposta
-ORDER BY
-    u.idUsuario,
-    ru.idResposta,
-    ra.idresposta_alternativa;
-
--- pegar a ultima resposta
-SELECT
-    u.idUsuario,
-    u.nome AS nome_usuario,
-    ru.idResposta,
-    ru.data_resposta,
-    ra.idresposta_alternativa,
-    ra.letra
-FROM
-    usuario u
-JOIN resposta_usuario ru ON ru.fkUsuario = u.idUsuario
-JOIN resposta_alternativa ra ON ra.fkResposta = ru.idResposta
-JOIN (
-    -- Subquery que retorna a última data_resposta para cada usuário
-    SELECT fkUsuario, MAX(data_resposta) AS ultima_data
-    FROM resposta_usuario
-    GROUP BY fkUsuario
-) ult ON ult.fkUsuario = ru.fkUsuario AND ult.ultima_data = ru.data_resposta
-ORDER BY
-    u.idUsuario,
-    ru.idResposta,
-    ra.idresposta_alternativa;
+        

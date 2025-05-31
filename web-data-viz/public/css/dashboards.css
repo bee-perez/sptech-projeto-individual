@@ -1,4 +1,3 @@
-
 * {
   margin: 0;
   padding: 0;
@@ -107,7 +106,7 @@ nav ul li a i {
   padding: 24px 72px;
   overflow-y: auto;
   color: #1c2541;
-
+  gap: 40px;
 }
 
 
@@ -115,7 +114,6 @@ nav ul li a i {
   display: flex;
   justify-content: center;
   gap: 30px;
-  margin-top: 40px;
   color: white;
 }
 
@@ -173,3 +171,104 @@ nav ul li a i {
   text-align: center;
 }
 
+/* STAND */
+.stand {
+  background-color: #0a122a;
+  border-radius: 20px;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.stand img {
+  max-width: 180px;
+  border-radius: 16px;
+}
+
+.descricao-personagem h2 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 12px;
+  color: #B2E200;
+}
+
+.descricao-personagem p {
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+/* tabela */
+.tabela-top {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+#tabela-top3-stands {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  text-align: left;
+  font-family: 'Poppins', sans-serif;
+  color: #1c2541;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+#tabela-top3-stands thead tr {
+  background-color: #0a122a;
+  color: white;
+  font-weight: 700;
+}
+
+#tabela-top3-stands thead th:first-child {
+  border-top-left-radius: 12px;
+}
+
+#tabela-top3-stands thead th:last-child {
+  border-top-right-radius: 12px;
+}
+
+#tabela-top3-stands tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 12px;
+}
+
+#tabela-top3-stands tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 12px;
+}
+
+#tabela-top3-stands th,
+#tabela-top3-stands td {
+  padding: 12px 16px;
+  border: 1px solid #ddd;
+  vertical-align: middle;
+}
+
+#tabela-top3-stands tbody td img {
+  width: 90px;
+  height: 90px;
+  border-radius: 16px;
+  object-fit: contain;
+}
+
+/* graficos */
+.graficos {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+}
+
+.graficos>div {
+  background-color: #0a122a;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}

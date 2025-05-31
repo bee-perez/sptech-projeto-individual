@@ -38,8 +38,65 @@ function contarConcordanciaUltimaResposta() {
   return database.executar(instrucao);
 }
 
+function obterStandDoUsuario(idUsuario) {
+  const instrucao = `
+    SELECT 
+      s.nome AS nomeStand,
+      s.descricao,
+      s.caracteristicas,
+      s.personagem
+    FROM usuario u
+    JOIN stand s ON u.fkStand = s.idStand
+    WHERE u.idUsuario = ${idUsuario};
+  `;
+  return database.executar(instrucao);
+}
+
+function obterTop3Stands() {
+  const instrucao = `
+    SELECT 
+        s.nome,
+        s.descricao,
+        COUNT(u.fkStand) AS total_usuarios
+    FROM stand s
+    JOIN usuario u ON s.idStand = u.fkStand
+    GROUP BY s.idStand
+    ORDER BY total_usuarios DESC
+    LIMIT 3;
+  `;
+  return database.executar(instrucao);
+}
+
+function contarRespostasPorLetraUltimaTentativa(idUsuario) {
+  const instrucao = `
+    SELECT ra.letra, COUNT(*) AS quantidade
+    FROM resposta_alternativa ra
+    JOIN (
+        SELECT idResposta
+        FROM resposta_usuario
+        WHERE fkUsuario = ${idUsuario}
+        ORDER BY data_resposta DESC
+        LIMIT 1
+    ) ultima_resposta ON ra.fkResposta = ultima_resposta.idResposta
+    GROUP BY ra.letra
+    ORDER BY ra.letra;
+  `;
+  return database.executar(instrucao);
+}
+
+function obterCaracteristicasStands() {
+  const instrucao = `
+    SELECT idStand, nome, caracteristicas FROM stand;
+  `;
+  return database.executar(instrucao);
+}
+
 module.exports = {
   contarUsuarios,
   contarUsuariosDoMesmoStand,
-  contarConcordanciaUltimaResposta
+  contarConcordanciaUltimaResposta,
+  obterStandDoUsuario,
+  obterTop3Stands,
+  contarRespostasPorLetraUltimaTentativa,
+  obterCaracteristicasStands
 };

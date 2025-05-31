@@ -28,9 +28,9 @@
                 <nav role="navigation" aria-label="Menu principal">
                     <ul>
                         <li><a href="./home.html"><i class="fas fa-home"></i> Home</a></li>
-                        <li><a href="./quiz.html" class="active"><i class="fas fa-clipboard-list"></i> Quizz</a></li>
+                        <li><a href="./quiz.html"><i class="fas fa-clipboard-list"></i> Quizz</a></li>
                         <!-- <li><a href="#"><i class="fas fa-user-astronaut"></i> Seu Stand</a></li> -->
-                        <li><a href="./dashboard.html"><i class="fas fa-chart-pie"></i> Dashbard</a></li>
+                        <li><a href="./dashboard.html" class="active"><i class="fas fa-chart-pie"></i> Dashbard</a></li>
                         <!-- <li><a href="#"><i class="fas fa-book-open"></i> Wiki</a></li> -->
                         <li><a href="#"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
                     </ul>
@@ -72,13 +72,41 @@
 
             </div>
 
-            <!-- <div class="stand">
-                <img src="" alt="">
+            <div class="stand">
+                <img id="imagemStand" src="" alt="">
                 <div class="descricao-personagem">
-                    <h2></h2>
-                    <p></p>
+                    <h2 id="nomeStand"></h2>
+                    <p id="descricaoStand"></p>
                 </div>
-            </div> -->
+            </div>
+
+            <div class="graficos">
+                <div class="respostas">
+                    <canvas id="graficoBarras" width="400" height="300"></canvas>
+                </div>
+                <div class="perfil">
+                    <canvas id="graficoRadar" width="500" height="450"></canvas>
+                </div>
+            </div>
+
+
+            <div class="tabela-top">
+                <h3>Top 3 Stands mais tirados</h3>
+                <table id="tabela-top3-stands">
+                    <thead>
+                        <tr>
+                            <th>Imagem</th>
+                            <th>Nome do Stand</th>
+                            <th>Descrição</th>
+                            <th>Total de Usuários</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+
+
 
             <div class="dados"></div>
         </section>
@@ -89,10 +117,16 @@
 
 <script>
 
+    const idUsuario = sessionStorage.ID_USUARIO;
+    const quantidade = [];
+
     window.onload = function () {
         atualizarQuantidadeUsuarios();
         atualizarQuantidadeMesmoStand();
         carregarGraficoOpiniao();
+        carregarStandUsuario(idUsuario);
+        carregarTop3Stands();
+        criarGraficos(idUsuario);
     };
 
     function atualizarQuantidadeUsuarios() {
@@ -116,7 +150,7 @@
     }
 
     function atualizarQuantidadeMesmoStand() {
-        const idUsuario = sessionStorage.ID_USUARIO;
+
 
         if (!idUsuario) {
             console.error("ID do usuário não encontrado na sessão.");
@@ -203,5 +237,278 @@
             })
             .catch(console.error);
     }
+
+    const imagensStands = {
+        "Whitesnake": "../assets/imgs/stand-whitesnake.svg",
+        "Stone Free": "../assets/imgs/stand-stonefree.svg",
+        "Star Platinum": "../assets/imgs/stand-star-platinum.svg",
+        "Burning Down the House": "../assets/imgs/stand-burning.svg",
+        "Foo Fighters": "../assets/imgs/stand-foo.svg",
+        "Weather Forecast": "../assets/imgs/stand-weather.svg",
+        "Kiss": "../assets/imgs/stand-kiss.svg",
+        "Diver Down": "../assets/imgs/stand-diver.svg",
+        "The World": "../assets/imgs/stand-theworld.svg"
+    };
+
+    const descricoesStands = {
+        "Whitesnake": "Você tirou o stand *Whitesnake* porque sua mente é afiada e estratégica. Sua lealdade e capacidade de entender os outros profundamente fazem de você alguém que sabe quando agir e quando observar. Assim como Pucci, você enxerga o mundo com propósito.",
+
+        "Stone Free": "Você tirou o stand *Stone Free* porque a resiliência define sua essência. Como Jolyne, você enfrenta os desafios de frente, transformando dor em poder e incerteza em liberdade. Seu crescimento é guiado por coragem e identidade.",
+
+        "Star Platinum": "Você tirou o stand *Star Platinum* porque a força, tanto física quanto emocional, é o que impulsiona seus passos. Assim como Jotaro, você é firme, direto e determinado a proteger aquilo que importa.",
+
+        "Burning Down the House": "Você tirou o stand *Burning Down the House* porque sua mente é seu maior trunfo. Criativo e estratégico, você encontra soluções mesmo quando tudo parece perdido, como Emporio, você constrói caminhos a partir do invisível.",
+
+        "Foo Fighters": "Você tirou o stand *Foo Fighters* porque seu desejo de pertencer e proteger aqueles à sua volta é o que guia sua jornada. Como F.F., você valoriza conexões reais e aprende com cada experiência vivida.",
+
+        "Weather Forecast": "Você tirou o stand *Weather Forecast* porque sua sensibilidade é profunda. Você sente o mundo com intensidade, e como Weather Report, seu controle emocional pode transformar caos em harmonia.",
+
+        "Kiss": "Você tirou o stand *Kiss* porque sua determinação nunca cede. Como Ermes, você enfrenta obstáculos com garra e nunca desiste do que acredita. Cada luta te torna mais forte.",
+
+        "Diver Down": "Você tirou o stand *Diver Down* porque sua intensidade interior impacta tudo ao seu redor. Como Narciso, você mergulha fundo nas situações, alterando o mundo com sua energia e paixão.",
+
+        "The World": "Você tirou o stand *The World* porque sua coragem e ambição te colocam sempre um passo à frente. Como Dio, você não teme o impossível, você o enfrenta, moldando seu destino com as próprias mãos."
+    };
+
+    function carregarStandUsuario(idUsuario) {
+        console.log(idUsuario);
+
+        fetch(`/dash/usuario/stand/${idUsuario}`)
+            .then(resposta => {
+                if (!resposta.ok) {
+                    throw new Error(`Erro ao buscar stand: ${resposta.status}`);
+                }
+                return resposta.json();
+            })
+            .then(dados => {
+                const nomeStand = dados.nomeStand;
+                const descricaoBanco = dados.descricao;
+                const personagem = dados.personagem;
+
+                const urlImagem = imagensStands[nomeStand];
+                const descricaoPersonalizada = descricoesStands[nomeStand];
+                const descricaoFinal = `${descricaoBanco}.\n\n${descricaoPersonalizada}`;
+
+                document.getElementById("imagemStand").src = urlImagem;
+
+                document.getElementById("nomeStand").innerHTML = `
+                <span style="color: #B2E200">${nomeStand}</span> 
+                <span style="color: white">– (${personagem})</span>
+            `;
+
+                document.getElementById("descricaoStand").textContent = descricaoFinal;
+            })
+            .catch(erro => {
+                console.error("Erro ao carregar stand do usuário:", erro);
+            });
+    }
+
+    function carregarTop3Stands() {
+        fetch('/dash/relatorio/top3-stands')
+            .then(res => {
+                if (!res.ok) throw new Error("Erro ao buscar top 3 stands.");
+                return res.json();
+            })
+            .then(dados => {
+                const tbody = document.querySelector("#tabela-top3-stands tbody");
+                tbody.innerHTML = ""; 
+
+                dados.forEach(stand => {
+                    const tr = document.createElement("tr");
+
+                    // Coluna Imagem
+                    const tdImg = document.createElement("td");
+                    const img = document.createElement("img");
+                    img.src = imagensStands[stand.nome];
+                    img.alt = stand.nome;
+                    tdImg.appendChild(img);
+
+                    // Coluna Nome
+                    const tdNome = document.createElement("td");
+                    tdNome.textContent = stand.nome;
+
+                    // Coluna Descrição
+                    const tdDescricao = document.createElement("td");
+                    tdDescricao.textContent = stand.descricao;
+
+                    // Coluna Total de Usuários
+                    const tdTotal = document.createElement("td");
+                    tdTotal.textContent = stand.total_usuarios;
+
+                    // Adiciona todas as td na tr
+                    tr.appendChild(tdImg);
+                    tr.appendChild(tdNome);
+                    tr.appendChild(tdDescricao);
+                    tr.appendChild(tdTotal);
+
+                    // Adiciona a linha na tabela
+                    tbody.appendChild(tr);
+                });
+            })
+            .catch(erro => {
+                console.error("Erro ao carregar top 3 stands:", erro);
+            });
+    }
+
+    // 
+
+    function criarGraficos() {
+        fetch('/dash/relatorio/letras-ultima/' + idUsuario)
+            .then(function (res) {
+                return res.json();
+            })
+            .then(function (respostas) {
+                var mapaLetraStand = {
+                    a: 'Whitesnake',
+                    b: 'Stone Free',
+                    c: 'Star Platinum',
+                    d: 'Burning Down the House',
+                    e: 'Foo Fighters',
+                    f: 'Weather Forecast',
+                    g: 'Kiss',
+                    h: 'Diver Down',
+                    i: 'The World'
+                };
+
+                var respostasPorLetra = {};
+                for (var i = 0; i < respostas.length; i++) {
+                    var item = respostas[i];
+                    respostasPorLetra[item.letra.toLowerCase()] = item.quantidade;
+                }
+
+                var labelsBarras = [];
+                var dadosBarras = [];
+
+                for (var letra in mapaLetraStand) {
+                    labelsBarras.push(mapaLetraStand[letra]);
+                    if (respostasPorLetra[letra]) {
+                        dadosBarras.push(respostasPorLetra[letra]);
+                    } else {
+                        dadosBarras.push(0);
+                    }
+                }
+
+                var ctxBarras = document.getElementById('graficoBarras').getContext('2d');
+                new Chart(ctxBarras, {
+                    type: 'bar',
+                    data: {
+                        labels: labelsBarras,
+                        datasets: [{
+                            label: 'Quantidade de Respostas por Stand',
+                            data: dadosBarras,
+                            backgroundColor: '#B2E200',
+                            borderRadius: 5
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            x: {
+                                ticks: { color: '#ffffff' },
+                                grid: { color: 'rgba(255,255,255,0.1)' }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                max: 8,
+                                ticks: { color: '#ffffff' },
+                                grid: { color: 'rgba(255,255,255,0.1)' }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                labels: { color: '#ffffff' }
+                            }
+                        }
+                    }
+                });
+
+                fetch('/dash/relatorio/caracteristicas-stands')
+                    .then(function (res) {
+                        return res.json();
+                    })
+                    .then(function (stands) {
+                        var caracteristicasLabels = [];
+                        var valoresRadar = [];
+
+                        for (var j = 0; j < stands.length; j++) {
+                            var stand = stands[j];
+                            var letra = null;
+
+                            for (var key in mapaLetraStand) {
+                                if (mapaLetraStand[key] === stand.nome) {
+                                    letra = key;
+                                    break;
+                                }
+                            }
+
+                            caracteristicasLabels.push(stand.caracteristicas);
+
+                            if (letra && respostasPorLetra[letra]) {
+                                valoresRadar.push(respostasPorLetra[letra]);
+                            } else {
+                                valoresRadar.push(0);
+                            }
+                        }
+
+                        gerarGraficoRadar(caracteristicasLabels, valoresRadar);
+                    });
+            })
+            .catch(function (erro) {
+                console.error("Erro ao criar gráficos:", erro);
+            });
+    }
+
+    function gerarGraficoRadar(labels, dados) {
+        var ctxRadar = document.getElementById('graficoRadar').getContext('2d');
+        new Chart(ctxRadar, {
+            type: 'radar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Características mais marcantes',
+                    data: dados,
+                    backgroundColor: 'rgba(178, 226, 0, 0.3)',
+                    borderColor: '#B2E200',
+                    pointBackgroundColor: '#B2E200',
+                    borderWidth: 2,
+                    fill: true,
+                    pointRadius: 5,
+                    pointHoverRadius: 7
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    r: {
+                        beginAtZero: true,
+                        min: 0,
+                        max: 8,
+                        ticks: {
+                            stepSize: 1,
+                            color: '#ffffff',
+                            backdropColor: 'transparent',
+                            font: { size: 12 }
+                        },
+                        angleLines: { color: 'rgba(255,255,255,0.2)' },
+                        grid: { color: 'rgba(255,255,255,0.1)' },
+                        pointLabels: {
+                            color: '#ffffff',
+                            font: { size: 14 }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: '#B2E200',
+                            font: { size: 14 }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+
 
 </script>

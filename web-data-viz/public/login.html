@@ -18,9 +18,9 @@
     <main class="container">
         <div class="alerta_erro">
             <div class="card_erro" id="cardErro">
-                <span id="mensagem_erro"></span>
+              <span id="mensagem_erro"></span>
             </div>
-        </div>
+          </div>
         <section class="form-container">
             <a href="./index.html">
                 <img src="./assets/logo.svg" alt="Stand Inside Logo" class="logo" />
@@ -32,10 +32,10 @@
 
             <form id="register-form" onsubmit="entrar(event)">
                 <label for="email">E-mail</label>
-                <input type="email" id="email_input" placeholder="exemplo@gmail.com" required />
+                <input type="email" id="email_input" placeholder="exemplo@gmail.com"  />
             
                 <label for="password">Senha</label>
-                <input type="password" id="senha_input" placeholder="••••••" required />
+                <input type="password" id="senha_input" placeholder="••••••"  />
             
                 <div class="check">
                     <div class="checkbox-row">
@@ -72,7 +72,7 @@
 
         if (emailVar == "" || senhaVar == "") {
             cardErro.style.display = "block"
-            mensagem_erro.innerHTML = "(Mensagem de erro para todos os campos em branco)";
+            mensagem_erro.innerHTML = "Por favor, preencha todos os campos para continuar.";
             finalizarAguardar();
             return false;
         }

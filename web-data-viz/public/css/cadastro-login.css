@@ -110,4 +110,26 @@
     background-color: #add600;
   }
   
-  
+/* erro */
+.alerta_erro {
+  position: fixed;
+  top: 20px;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: auto;
+  max-width: 80%;
+  pointer-events: none; 
+}
+
+.card_erro {
+  background-color: #ffe0e0;
+  border: 1px solid #ff5c5c;
+  color: #b30000;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: bold;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: none;
+}

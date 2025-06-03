@@ -9,6 +9,9 @@
   <link rel="stylesheet" href="../css/quiz.css">
   <link rel="icon" href="../assets/logo.svg">
   <script src="../js/sessao.js"></script>
+
+  <script src="https://sdk.scdn.co/spotify-player.js"></script>
+
 </head>
 
 <body>
@@ -16,6 +19,7 @@
     <aside class="sidebar">
       <div class="nav-bar">
         <img class="logo" src="../assets/logo.svg" alt="Stand Inside" />
+        <p id="saudacaoUsuario" style="color: white; margin: 0 24px; font-weight: bold;"></p>
         <nav role="navigation" aria-label="Menu principal">
           <ul>
             <li><a href="./home.html"><i class="fas fa-home"></i> Home</a></li>
@@ -23,7 +27,12 @@
             <!-- <li><a href="#"><i class="fas fa-user-astronaut"></i> Seu Stand</a></li> -->
             <li><a href="./dashboard.html"><i class="fas fa-chart-pie"></i> Dashbard</a></li>
             <!-- <li><a href="#"><i class="fas fa-book-open"></i> Wiki</a></li> -->
-            <li><a href="#"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
+            <li>
+              <a href="#" onclick="limparSessao()">
+                <i class="fas fa-sign-out-alt"></i>
+                <button style="all: unset; cursor: pointer;">Sair</button>
+              </a>
+            </li>
           </ul>
         </nav>
       </div>
@@ -63,6 +72,14 @@
 
         </div>
       </div>
+
+      <div id="playerContainer" style="margin: 20px 0; text-align:center;">
+        <iframe src="https://open.spotify.com/embed/playlist/4S2MmXAw2VYYS9SP0mCduZ" width="300" height="380"
+          frameborder="0" allowtransparency="true" allow="encrypted-media">
+        </iframe>
+      </div>
+
+
     </section>
   </section>
 </body>
@@ -89,6 +106,15 @@
   alternativasContainer.addEventListener("change", () => {
     proximaBtn.disabled = !alternativasContainer.querySelector("input[name='alternativa']:checked");
   });
+
+  window.onload = () => {
+    const nomeUsuario = sessionStorage.getItem("NOME_USUARIO"); 
+    if (nomeUsuario) {
+      const saudacao = document.getElementById("saudacaoUsuario");
+      saudacao.textContent = `Olá, ${nomeUsuario}`;
+    }
+  };
+
 
   //só habilito o botao de enviar se concorda com resultado caso um radio seja selecionado
   document.querySelectorAll('input[name="concordancia"]').forEach(input => {
@@ -170,7 +196,7 @@
     const concordanciaSelecionada = document.querySelector('input[name="concordancia"]:checked');
     if (!concordanciaSelecionada) return;
 
-    const concordancia = Number(concordanciaSelecionada.value); 
+    const concordancia = Number(concordanciaSelecionada.value);
 
     fetch("/quiz/resposta/concordancia", {
       method: "PUT",
@@ -305,9 +331,33 @@
       <li><strong>Seu Stand é:</strong> ${stand.nome}</li>
       <li><strong>Descrição:</strong> ${stand.descricao}</li>
       <li><strong>Características:</strong> ${stand.caracteristicas}</li>
-      <li><strong>Personagem Dono:</strong> ${stand.personagem}</li>
       <br>
+
     `;
+
+        const personagemDono = stand.personagem;
+        let nomeParaJikan = stand.personagem;
+
+        if (nomeParaJikan.toLowerCase() === "jotaro kujo" || nomeParaJikan.toLowerCase() === "joutarou") {
+          nomeParaJikan = "Joutarou Kuujou";
+        } else if (nomeParaJikan === "F.F." || nomeParaJikan.toLowerCase() === "f.f") {
+          nomeParaJikan = "Foo Fighters";
+        }
+
+        //jikan
+        console.log(nomeParaJikan)
+
+        buscarPersonagemJikan(nomeParaJikan).then(jikanPersonagem => {
+          if (jikanPersonagem) {
+            listaRespostas.innerHTML += `
+      <li><strong>Nome Personagem dono do stand no Jikan:</strong> ${jikanPersonagem.name}</li>
+      <li><img src="${jikanPersonagem.images.jpg.image_url}" alt="${jikanPersonagem.name}" style="width: 150px;"></li>
+    `;
+          } else {
+            listaRespostas.innerHTML += `<li>Informações adicionais do personagem não encontradas.</li>`;
+          }
+        });
+
 
         // Salva o stand para o usuário
         const idUsuario = sessionStorage.ID_USUARIO;
@@ -383,6 +433,26 @@
         console.error(erro);
         alert("Erro ao enviar respostas.");
       });
+  }
+
+
+  //jikan:
+  async function buscarPersonagemJikan(nomePersonagem) {
+    try {
+      const response = await fetch(`https://api.jikan.moe/v4/characters?q=${encodeURIComponent(nomePersonagem)}`);
+      if (!response.ok) throw new Error("Erro ao buscar personagem no Jikan.");
+      const data = await response.json();
+      if (data.data && data.data.length > 0) {
+        // Pega o primeiro personagem da lista
+        const personagem = data.data[0];
+        return personagem;
+      } else {
+        return null;
+      }
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
   }
 
 

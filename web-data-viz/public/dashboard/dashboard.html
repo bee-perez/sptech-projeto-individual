@@ -25,14 +25,20 @@
         <aside class="sidebar">
             <div class="nav-bar">
                 <img class="logo" src="../assets/logo.svg" alt="Stand Inside" />
+                <p id="saudacaoUsuario" style="color: white; margin: 0 24px; font-weight: bold;"></p>
                 <nav role="navigation" aria-label="Menu principal">
                     <ul>
                         <li><a href="./home.html"><i class="fas fa-home"></i> Home</a></li>
-                        <li><a href="./quiz.html"><i class="fas fa-clipboard-list"></i> Quizz</a></li>
+                        <li><a href="./quiz.html" ><i class="fas fa-clipboard-list"></i> Quizz</a></li>
                         <!-- <li><a href="#"><i class="fas fa-user-astronaut"></i> Seu Stand</a></li> -->
                         <li><a href="./dashboard.html" class="active"><i class="fas fa-chart-pie"></i> Dashbard</a></li>
                         <!-- <li><a href="#"><i class="fas fa-book-open"></i> Wiki</a></li> -->
-                        <li><a href="#"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
+                        <li>
+                            <a href="#" onclick="limparSessao()">
+                              <i class="fas fa-sign-out-alt"></i>
+                              <button style="all: unset; cursor: pointer;">Sair</button>
+                            </a>
+                          </li>
                     </ul>
                 </nav>
             </div>
@@ -127,6 +133,12 @@
         carregarStandUsuario(idUsuario);
         carregarTop3Stands();
         criarGraficos(idUsuario);
+
+        const nomeUsuario = sessionStorage.getItem("NOME_USUARIO");
+        if (nomeUsuario) {
+            const saudacao = document.getElementById("saudacaoUsuario");
+            saudacao.textContent = `Olá, ${nomeUsuario}`;
+        }
     };
 
     function atualizarQuantidadeUsuarios() {
@@ -311,7 +323,7 @@
             })
             .then(dados => {
                 const tbody = document.querySelector("#tabela-top3-stands tbody");
-                tbody.innerHTML = ""; 
+                tbody.innerHTML = "";
 
                 dados.forEach(stand => {
                     const tr = document.createElement("tr");
@@ -404,13 +416,23 @@
                         responsive: true,
                         scales: {
                             x: {
-                                ticks: { color: '#ffffff' },
+                                ticks: {
+                                    color: '#ffffff',
+                                    font: {
+                                        size: 16
+                                    }
+                                },
                                 grid: { color: 'rgba(255,255,255,0.1)' }
                             },
                             y: {
                                 beginAtZero: true,
                                 max: 8,
-                                ticks: { color: '#ffffff' },
+                                ticks: {
+                                    color: '#ffffff',
+                                    font: {
+                                        size: 16
+                                    }
+                                },
                                 grid: { color: 'rgba(255,255,255,0.1)' }
                             }
                         },
@@ -493,7 +515,7 @@
                         grid: { color: 'rgba(255,255,255,0.1)' },
                         pointLabels: {
                             color: '#ffffff',
-                            font: { size: 14 }
+                            font: { size: 16 }
                         }
                     }
                 },

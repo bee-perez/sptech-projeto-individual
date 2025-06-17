@@ -19,12 +19,12 @@ A escolha deste tema foi ligada ao conceito de "Stand" como dito anteriormente. 
 
 ## 📦 Entregáveis
 
-- [ ] Documentação do projeto
-- [ ] Planejamento no trello
-- [ ] Modelo Lógico
-- [ ] Relacionamentos
-- [ ] Comandos SQL
-- [ ] Algoritmos: Variáveis, Funções, Operações Matemáticas, Condicionais, Repetições, Vetores
-- [ ] Aplicação de Cálculos matemáticos
-- [ ] Utilização de uma VM Linux contendo somente o BD
-- [ ] Dashboard com gráficos 
+- [x] Documentação do projeto
+- [x] Planejamento no trello
+- [x] Modelo Lógico
+- [x] Relacionamentos
+- [x] Comandos SQL
+- [x] Algoritmos: Variáveis, Funções, Operações Matemáticas, Condicionais, Repetições, Vetores
+- [x] Aplicação de Cálculos matemáticos
+- [x] Utilização de uma VM Linux contendo somente o BD
+- [x] Dashboard com gráficos 
